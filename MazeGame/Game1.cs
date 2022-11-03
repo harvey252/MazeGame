@@ -8,18 +8,21 @@ namespace MazeGame
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
+        public static Texture2D blockTexture;
+        public Maze testMaze = new Maze(new Vector2(20, 20), new Vector2[] { new Vector2(0, 0), new Vector2(1, 0), new Vector2(2,0),new Vector2(3,0),new Vector2(4,0) }, 400);
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            blockTexture = Content.Load<Texture2D>("block");
             base.Initialize();
         }
 
@@ -42,11 +45,14 @@ namespace MazeGame
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
-
+            //_spriteBatch
+            _spriteBatch.Begin();
+            testMaze.draw(_spriteBatch);
             base.Draw(gameTime);
+            _spriteBatch.End();
         }
     }
 }
