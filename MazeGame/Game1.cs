@@ -9,7 +9,15 @@ namespace MazeGame
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         public static Texture2D blockTexture;
-        public Maze testMaze = new Maze(new Vector2(20, 20), new Vector2[] { new Vector2(0, 0), new Vector2(1, 0), new Vector2(2,0),new Vector2(3,0),new Vector2(4,0) }, 400);
+        public Maze testMaze = new Maze(new Vector2(30, 30), 
+            new Vector2[] { new Vector2(0, 0), new Vector2(2, 0), new Vector2(4,0),new Vector2(6,0),
+            new Vector2(1,1), new Vector2(3,1), new Vector2(5,1),
+            new Vector2(0,2), new Vector2(2,2), new Vector2(4,2), new Vector2(6,2),
+            new Vector2(1,3), new Vector2(3,3), new Vector2(5,3),
+            new Vector2(0,4), new Vector2(2,4), new Vector2(4,4), new Vector2(6,4),
+            new Vector2(1,5), new Vector2(3,5), new Vector2(5,5),
+            new Vector2(0,6),new Vector2(2,6), new Vector2(4,6),new Vector2(6,6)}, 
+            300);
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);

@@ -29,17 +29,24 @@ namespace MazeGame
         {
             foreach (Vector2 block in blocks)
             {
-                _spriteBatch.Draw(
-                    Game1.blockTexture,
-                    new Vector2(block.X*scale+position.X,block.Y*scale+position.Y),
-                    null, 
-                    Color.LightGray,
-                    0f,
-                    new Vector2(0, 0),
-                    scale/32,
-                    SpriteEffects.None,
-                    0f);
+                drawPoint(_spriteBatch, block, Game1.blockTexture, Color.White);
             }
         }
+        private void drawPoint(SpriteBatch _spriteBatch, Vector2 pos, Texture2D texture, Color color)
+        {
+            _spriteBatch.Draw(
+                 texture,
+                 new Vector2(pos.X * scale + position.X, pos.Y * scale + position.Y),
+                 null,
+                 color,
+                 0f,
+                 new Vector2(0, 0),
+                 scale / 32,
+                 SpriteEffects.None,
+                 0f);
+
+        }
     }
+
+
 }
