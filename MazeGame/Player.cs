@@ -28,22 +28,22 @@ namespace MazeGame
             //defines new target from direction input
             if (atTarget())
             {
-                if (kstate.IsKeyDown(Keys.W))
+                if (kstate.IsKeyDown(Keys.W)|| kstate.IsKeyDown(Keys.Up))
                 {
                     target.Y += -1;
 
                 }
-                else if (kstate.IsKeyDown(Keys.S))
+                else if (kstate.IsKeyDown(Keys.S) || kstate.IsKeyDown(Keys.Down))
                 {
                     target.Y += 1;
 
                 }
-                else if (kstate.IsKeyDown(Keys.A))
+                else if (kstate.IsKeyDown(Keys.A) || kstate.IsKeyDown(Keys.Left))
                 {
                     target.X += -1;
 
                 }
-                else if (kstate.IsKeyDown(Keys.D))
+                else if (kstate.IsKeyDown(Keys.D) || kstate.IsKeyDown(Keys.Right))
                 {
                     target.X += 1;
 
@@ -54,6 +54,7 @@ namespace MazeGame
             //moves to target
             if (!atTarget() && targetValid())
             {
+                //if target to right
                 if (target.X > position.X)
                 {
                     position.X += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -61,6 +62,7 @@ namespace MazeGame
                     if (target.X < position.X)
                         position.X = target.X;
                 }
+                //if target to left
                 else if (target.X < position.X)
                 {
                     position.X -= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -68,6 +70,7 @@ namespace MazeGame
                     if (target.X > position.X)
                         position.X = target.X;
                 }
+                //if target bellow (greater Y cord means lower on screen)
                 else if (target.Y > position.Y)
                 {
                     position.Y += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -75,6 +78,7 @@ namespace MazeGame
                     if (target.Y < position.Y)
                         position.Y = target.Y;
                 }
+                //if target above
                 else if (target.Y < position.Y)
                 {
                     position.Y -= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -87,11 +91,11 @@ namespace MazeGame
             //check if at end of level
             if (position == endPos)
             {
-
+                //not used yet
             }
 
         }
-
+        //check to see if at target
         public bool atTarget()
         {
             if (position == target)
@@ -102,7 +106,7 @@ namespace MazeGame
                 return false;
         }
 
-
+        //makes sure target is allowed
         public bool targetValid()
         {
 
