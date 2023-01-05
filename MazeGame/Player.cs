@@ -8,6 +8,7 @@ namespace MazeGame
 {
     public class Player
     {
+        private Vector2 start;
         public Vector2 position;
         private float speed = 4f;
         private Color color = Color.Blue;
@@ -23,6 +24,7 @@ namespace MazeGame
         {
             position = startPos;
             target = position;
+            start = position;
         }
 
         public void update(GameTime gameTime)
@@ -37,6 +39,13 @@ namespace MazeGame
 
             var kstate = Keyboard.GetState();
 
+            //resetting the player
+            if(kstate.IsKeyDown(Keys.R))
+            {
+                position = start;
+                target = start;
+                trail = new List<Vector2>(); 
+            }
 
             //defines new target from direction input
             if (atTarget())
