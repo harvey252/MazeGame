@@ -9,22 +9,28 @@ namespace MazeGame
     public class Player
     {
         private Vector2 start;
+        private Vector2 end;
+
         public Vector2 position;
         private float speed = 4f;
+
         private Color color = Color.Blue;
         private Texture2D texture = Game1.blockTexture;
         private Vector2 endPos;
         private Vector2 target;
        
         public bool error = false;
+        public bool win = false;
 
         private List<Vector2> trail = new List<Vector2>();
 
-        public Player(Vector2 startPos)
+        public Player(Vector2 startPos, Vector2 finishPos)
         {
             position = startPos;
             target = position;
             start = position;
+
+            end = finishPos;
         }
 
         public void update(GameTime gameTime)
@@ -34,11 +40,19 @@ namespace MazeGame
             if (error)
                 return;
 
-            
+            //temporay code stops player updating if won
+            if (win)
+                return;
+
+
+            if (position == end)
+                win = true;
+
 
 
             var kstate = Keyboard.GetState();
 
+            
             //resetting the player
             if(kstate.IsKeyDown(Keys.R))
             {
@@ -163,8 +177,10 @@ namespace MazeGame
             foreach(Vector2 point in trail)
                 Game1.testMaze.drawPoint(_spriteBatch, point, Game1.blockTexture, Color.LightBlue);
 
+            Game1.testMaze.drawPoint(_spriteBatch, end, Game1.blockTexture, Color.Green);
             Game1.testMaze.drawPoint(_spriteBatch, position, Game1.blockTexture, Color.Blue);
             
+
         }
     }
 }

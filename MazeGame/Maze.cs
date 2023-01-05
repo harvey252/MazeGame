@@ -10,7 +10,7 @@ namespace MazeGame
         public Vector2[] blocks;
         private float scale;
         public Vector2 position;
-        public Player player = new Player(new Vector2(1,1));
+        public Player player = new Player(new Vector2(1,1),new Vector2(5,5));
 
 
         //value of greaset point in maze needed by player for errror checking
