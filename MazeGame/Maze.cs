@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace MazeGame
 {
@@ -10,19 +11,27 @@ namespace MazeGame
         private float scale;
         public Vector2 position;
         public Player player = new Player(new Vector2(1,1));
+
+
+        //value of greaset point in maze needed by player for errror checking
+        private int _greatest;
+        //getter for greatest
+        public int Greastest { 
+            get { return _greatest; } 
+        }
         
         public Maze(Vector2 inputPos, Vector2[] inputBlocks, float length)
         {
             position = inputPos;
             blocks = inputBlocks;
-            float greatest = 0;
+            _greatest = 0;
             foreach(Vector2 block in blocks)
             {
-                if (block.X > greatest) greatest = block.X;
-                else if (block.Y > greatest) greatest = block.Y;
+                if (block.X > _greatest) _greatest = Convert.ToInt32(block.X);
+                else if (block.Y > _greatest) _greatest = Convert.ToInt32(block.Y);
             }
 
-            scale = System.Math.Abs( length) /(greatest+1);
+            scale = System.Math.Abs( length) /(_greatest+1);
             
         }
 
@@ -50,5 +59,7 @@ namespace MazeGame
         {
             player.update(gameTime);
         }
+
+   
     }
 }

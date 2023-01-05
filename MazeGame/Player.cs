@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace MazeGame
 {
@@ -13,6 +14,10 @@ namespace MazeGame
         private Texture2D texture = Game1.blockTexture;
         private Vector2 endPos;
         private Vector2 target;
+       
+        public bool error = false;
+
+        private List<Vector2> trail = new List<Vector2>();
 
         public Player(Vector2 startPos)
         {
@@ -22,12 +27,23 @@ namespace MazeGame
 
         public void update(GameTime gameTime)
         {
+            error = !pointValid(position);
+            //temporay code stops player updating if error
+            if (error)
+                return;
+
+            
+
+
             var kstate = Keyboard.GetState();
 
 
             //defines new target from direction input
             if (atTarget())
             {
+                if (!trail.Contains(target))
+                    trail.Add(target);
+
                 if (kstate.IsKeyDown(Keys.W)|| kstate.IsKeyDown(Keys.Up))
                 {
                     target.Y += -1;
@@ -52,7 +68,7 @@ namespace MazeGame
 
             }
             //moves to target
-            if (!atTarget() && targetValid())
+            if (!atTarget() && pointValid(target))
             {
                 //if target to right
                 if (target.X > position.X)
@@ -87,6 +103,10 @@ namespace MazeGame
                         position.Y = target.Y;
                 }
             }
+            else if (!pointValid(target))
+            {
+                target = position;
+            }
 
             //check if at end of level
             if (position == endPos)
@@ -107,25 +127,35 @@ namespace MazeGame
         }
 
         //makes sure target is allowed
-        public bool targetValid()
+        public bool pointValid(Vector2 point)
         {
 
             //check target is not occupied
             foreach (Vector2 block in Game1.testMaze.blocks)
             {
-                if (target == block) 
+                if (point == block) 
                 {
-                    target = position;
                     return false;
                 }
             }
+            //checks point is not outside the maze
+            if (position.X > Game1.testMaze.Greastest|| position.Y > Game1.testMaze.Greastest)
+            {
+                return false;
+            }
+
 
             return true;
         }
 
         public void draw(SpriteBatch _spriteBatch)
         {
+            //draw trail
+            foreach(Vector2 point in trail)
+                Game1.testMaze.drawPoint(_spriteBatch, point, Game1.blockTexture, Color.LightBlue);
+
             Game1.testMaze.drawPoint(_spriteBatch, position, Game1.blockTexture, Color.Blue);
+            
         }
     }
 }
