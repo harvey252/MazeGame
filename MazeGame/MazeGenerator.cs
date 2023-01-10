@@ -15,7 +15,7 @@ namespace MazeGame
             int[,] grid = new int[size * 2 + 1, size * 2 + 1];
 
 
-            //filling in teh full rows
+            //filling in the full rows
 
             for (int a = 0; a <= size * 2; a += 2)
             {
