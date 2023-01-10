@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace MazeGame
 {
@@ -11,15 +14,8 @@ namespace MazeGame
         public static Texture2D blockTexture;
         public static Maze testMaze = new Maze(
             new Vector2(0, 0), 
-            new Vector2[] { 
-                new Vector2(0,0), new Vector2(1, 0), new Vector2(2, 0), new Vector2(3,0),new Vector2(4,0), new Vector2(5,0), new Vector2(6,0),
-                new Vector2(0,1), new Vector2(6,1),
-                new Vector2(0,2), new Vector2(6,2),
-                new Vector2(0,3), new Vector2(6,3),
-                new Vector2(0,4), new Vector2(6,4),
-                new Vector2(0,5), new Vector2(6,5),
-                new Vector2(0,6),new Vector2(1,6), new Vector2(2,6),new Vector2(3,6), new Vector2(4,6),new Vector2(5,6),new Vector2(6,6)}, 
-            400);
+            MazeGenerator.generateBinary(12), 
+            480);
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -31,6 +27,7 @@ namespace MazeGame
 
         protected override void Initialize()
         {
+            
             // TODO: Add your initialization logic here
             blockTexture = Content.Load<Texture2D>("block");
             base.Initialize();

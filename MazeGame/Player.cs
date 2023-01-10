@@ -177,7 +177,9 @@ namespace MazeGame
             foreach(Vector2 point in trail)
                 Game1.testMaze.drawPoint(_spriteBatch, point, Game1.blockTexture, Color.LightBlue);
 
+            //draw end point
             Game1.testMaze.drawPoint(_spriteBatch, end, Game1.blockTexture, Color.Green);
+            //draw player
             Game1.testMaze.drawPoint(_spriteBatch, position, Game1.blockTexture, Color.Blue);
             
 
