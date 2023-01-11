@@ -34,8 +34,7 @@ namespace MazeGame
                 }
             }
 
-            //removeWall(grid, 1, 1, 's');
-            //grid = removeWall(grid, 0, 0, 'n');
+    
 
             return grid;
         }
@@ -61,8 +60,9 @@ namespace MazeGame
         //it wont be successful if there is no wall there or it is a wall
         private static bool removeWall(ref int[,]grid, int x, int y, char direction)
         {
-    
 
+            if (x <= 0 || y <= 0 || y >= grid.GetLongLength(1) || x >= grid.GetLongLength(0))
+                return false;
 
             //for every direction checks if not a embty or an edge andt then removed wall
             switch(direction)
@@ -128,6 +128,7 @@ namespace MazeGame
             {
                 for (int b = 1; b <= grid.GetLength(1)-1; b += 2)
                 {
+                    //if on the edge will have to only remove in one direction
                     if(b ==1)
                     {
                         removeWall(ref grid, a, b, 'e');
@@ -156,6 +157,48 @@ namespace MazeGame
 
             return toVector(grid);
         }
+        public static Vector2[] generateSideWidener(int length)
+        {
+            int[,] grid = makeGrid(length);
+            List<Vector2> unvisted = new List<Vector2>();
+            List<Vector2> run = new List<Vector2>();
+            //clearing top row
+            for (int a = 1; a <= grid.GetLength(0) - 1; a += 2)
+            {
+                removeWall(ref grid, a, 1, 'e');
+            }
+
+                //making list of unvisted points
+            for (int a = 1; a <= grid.GetLength(0) - 1; a += 2)
+            {
+                run.Clear();
+                for (int b = 3; b <= grid.GetLength(1) - 1; b += 2)
+                {
+                    if(random.Next(0,50)>25||run.Count==0)
+                    {
+                        removeWall(ref grid, a, b, 'e');
+                        run.Add(new Vector2(a, b));
+                    }
+                    else
+                    {
+                        if (run.Count != 0)
+                        {
+                            //removeWall(ref grid, a, b, 'e');
+                            Vector2 current = run[random.Next(0, run.Count)];
+                            run.Clear();
+                            removeWall(ref grid, (int)current.X, (int)current.Y, 'n');
+                        }
+                
+                        
+                    }
+                }
+            }
+
             
+            return toVector(grid);
+        }
+          
     }
+
+
 }
