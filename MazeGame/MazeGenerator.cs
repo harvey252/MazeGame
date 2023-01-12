@@ -123,6 +123,7 @@ namespace MazeGame
         {
             int[,] grid = makeGrid(length);
 
+            //going through each postion
             for (int a = 1; a <= grid.GetLength(0)-1; a += 2)
             {
                 for (int b = 1; b <= grid.GetLength(1)-1; b += 2)
@@ -137,6 +138,7 @@ namespace MazeGame
                         removeWall(ref grid, a, b, 'n');
                     }
 
+                    //desiding direction
                     int rand = random.Next(2);
                     if(rand ==1)
                     {
@@ -167,7 +169,7 @@ namespace MazeGame
                 removeWall(ref grid, a, 1, 'e');
             }
 
-                //making list of unvisted points
+            //going through all points
             for (int y = 3; y <= grid.GetLength(0) - 1; y += 2)
             {
                 run.Clear();
@@ -209,22 +211,27 @@ namespace MazeGame
                     unvisted.Add(new Vector2(x, y));
                 }
             }
-
+            //removing conver from visted so have a starting point
             unvisted.Remove(new Vector2(1, 1));
 
 
             Vector2 current=new Vector2(0,0);
+
+            //continous untill all oints visted
             while (unvisted.Count != 0)
             {
+                //chose random start
                 Vector2 start = unvisted[random.Next(0, unvisted.Count)];
                 path.Add(start);
                 int rand = random.Next(0, 100);
 
+                //makes path untill visted point found
                 while (unvisted.Contains(path[path.Count-1]))
                 {
                     
                     current = path[path.Count - 1];
                     rand = random.Next(0, 101);
+                    //picking direction
                     while (path[path.Count - 1] == current)
                     {
                         rand = random.Next(0, 101);
@@ -245,7 +252,10 @@ namespace MazeGame
                             current.X -= 2;
                         }
                     }
-                   
+
+                   //validating
+
+                    //removing a loop
                     if (path.Contains(current))
                     {
                         if (current != path[0]&&current!= path[path.Count-1])
@@ -257,6 +267,7 @@ namespace MazeGame
 
                         current = path[path.Count - 1];
                     }
+                    //checking it is in bounds
                     else if (current.X>=1&&current.X <= length*2&& current.Y >= 1 && current.Y <= length * 2 )
                     {
                         path.Add(current);
@@ -269,18 +280,6 @@ namespace MazeGame
                 }
 
                 //cut out path
-                Console.WriteLine(path.Count);
-                foreach (Vector2 i in path)
-                {
-                    Console.Write(i);
-                }
-                Console.WriteLine();
-                foreach(Vector2 i in unvisted)
-                {
-                    Console.Write(i);
-                }
-
-
                 for (int i=0; i < path.Count-1; i +=1)
                 {
                     current=path[i];
@@ -304,12 +303,13 @@ namespace MazeGame
 
                 }
                 
+                //marking points in path as visted
                 foreach (Vector2 i in path)
                 {
                     
                     unvisted.Remove(i);
                 }
-                
+                //resetting path for next itteration
                 path.Clear();
             }
 
