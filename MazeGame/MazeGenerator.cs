@@ -78,7 +78,6 @@ namespace MazeGame
                             grid[x, y-1] = 0;
                             return true;
                         }
-                        break;
                     
                 case 's':
                     if ((y == grid.GetLength(0)-2)|| (grid[x, y + 1] == 0))
@@ -160,7 +159,7 @@ namespace MazeGame
         public static Vector2[] generateSideWidener(int length)
         {
             int[,] grid = makeGrid(length);
-            List<Vector2> unvisted = new List<Vector2>();
+            
             List<Vector2> run = new List<Vector2>();
             //clearing top row
             for (int a = 1; a <= grid.GetLength(0) - 1; a += 2)
@@ -169,27 +168,24 @@ namespace MazeGame
             }
 
                 //making list of unvisted points
-            for (int a = 1; a <= grid.GetLength(0) - 1; a += 2)
+            for (int y = 3; y <= grid.GetLength(0) - 1; y += 2)
             {
                 run.Clear();
-                for (int b = 3; b <= grid.GetLength(1) - 1; b += 2)
+                for (int x = 1; x <= grid.GetLength(1) - 1; x += 2)
                 {
-                    if(random.Next(0,50)>25||run.Count==0)
+                    //chosing to end a run
+                    if (random.Next(0, 50) > 25 && run.Count != 0)
                     {
-                        removeWall(ref grid, a, b, 'e');
-                        run.Add(new Vector2(a, b));
+                        Vector2 current = run[random.Next(0, run.Count)];
+                        run.Clear();
+                        removeWall(ref grid, (int)current.X, (int)current.Y, 'n');
                     }
+                    //not ending a run
                     else
                     {
-                        if (run.Count != 0)
-                        {
-                            //removeWall(ref grid, a, b, 'e');
-                            Vector2 current = run[random.Next(0, run.Count)];
-                            run.Clear();
-                            removeWall(ref grid, (int)current.X, (int)current.Y, 'n');
-                        }
-                
-                        
+                        run.Add(new Vector2(x, y));
+                        if (!removeWall(ref grid, x, y, 'e'))
+                            removeWall(ref grid, x, y, 'n');
                     }
                 }
             }
@@ -197,7 +193,130 @@ namespace MazeGame
             
             return toVector(grid);
         }
-          
+
+        public static Vector2[] generateWilsons(int length)
+        {
+            int[,] grid = makeGrid(length);
+
+            List<Vector2> unvisted = new List<Vector2>();
+            List<Vector2> path = new List<Vector2>();
+
+            //filling visted
+            for (int y = 1; y <= grid.GetLength(0) - 1; y += 2)
+            {
+                for (int x = 1; x <= grid.GetLength(1) - 1; x += 2)
+                {
+                    unvisted.Add(new Vector2(x, y));
+                }
+            }
+
+            unvisted.Remove(new Vector2(1, 1));
+
+
+            Vector2 current=new Vector2(0,0);
+            while (unvisted.Count != 0)
+            {
+                Vector2 start = unvisted[random.Next(0, unvisted.Count)];
+                path.Add(start);
+                int rand = random.Next(0, 100);
+
+                while (unvisted.Contains(path[path.Count-1]))
+                {
+                    
+                    current = path[path.Count - 1];
+                    rand = random.Next(0, 101);
+                    while (path[path.Count - 1] == current)
+                    {
+                        rand = random.Next(0, 101);
+                        if (rand <= 25)
+                        {
+                            current.Y += 2;
+                        }
+                        else if (rand <= 50)
+                        {
+                            current.Y -= 2;
+                        }
+                        else if (rand <= 75)
+                        {
+                            current.X += 2;
+                        }
+                        else
+                        {
+                            current.X -= 2;
+                        }
+                    }
+                   
+                    if (path.Contains(current))
+                    {
+                        if (current != path[0]&&current!= path[path.Count-1])
+                        {
+                            Predicate<Vector2> find = delegate (Vector2 s) { return s.Equals(current); };
+
+                            path.RemoveRange(path.FindIndex(find), path.Count- path.FindIndex(find));
+                        }
+
+                        current = path[path.Count - 1];
+                    }
+                    else if (current.X>=1&&current.X <= length*2&& current.Y >= 1 && current.Y <= length * 2 )
+                    {
+                        path.Add(current);
+                    }
+                    else
+                    {
+                        current = path[path.Count - 1];
+                    }
+      
+                }
+
+                //cut out path
+                Console.WriteLine(path.Count);
+                foreach (Vector2 i in path)
+                {
+                    Console.Write(i);
+                }
+                Console.WriteLine();
+                foreach(Vector2 i in unvisted)
+                {
+                    Console.Write(i);
+                }
+
+
+                for (int i=0; i < path.Count-1; i +=1)
+                {
+                    current=path[i];
+                    Vector2 next=path[i + 1];
+                    if(current.X>next.X)
+                    {
+                        removeWall(ref grid, (int)current.X, (int)current.Y, 'w');
+                    }
+                    else if(current.X<next.X)
+                    {
+                        removeWall(ref grid, (int)current.X, (int)current.Y, 'e');
+                    }
+                    else if(current.Y< next.Y)
+                    {
+                        removeWall(ref grid, (int)current.X, (int)current.Y, 's');
+                    }
+                    else
+                    {
+                        removeWall(ref grid, (int)current.X, (int)current.Y, 'n');
+                    }
+
+                }
+                
+                foreach (Vector2 i in path)
+                {
+                    
+                    unvisted.Remove(i);
+                }
+                
+                path.Clear();
+            }
+
+            return toVector(grid);
+        }
+
+        
     }
 
 

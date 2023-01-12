@@ -14,7 +14,7 @@ namespace MazeGame
         public static Texture2D blockTexture;
         public static Maze testMaze = new Maze(
             new Vector2(0, 0), 
-            MazeGenerator.generateSideWidener(12), 
+            MazeGenerator.generateWilsons(12), 
             480);
         public Game1()
         {
