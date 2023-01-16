@@ -54,19 +54,25 @@ namespace MazeGame
 
             // TODO: Add your update logic here
 
+
+            //get user parameters if a new maze is needed to be made
             if (testMaze == null || testMaze.player.win)
             {
+                //getting type
                 Console.WriteLine("maze type 1 baisc generation, 2 medium generation, or 3 complex generation (best one) ");
                 type = (string)Console.ReadLine();
+                //to get valid type
                 while (type != "1" && type != "2" && type != "3")
                 {
                     Console.WriteLine("type in valid 1, 2 or 3 ");
                     type = (string)Console.ReadLine();
                 }
 
+                //geting size
                 Console.WriteLine("size");
                 string temp = Console.ReadLine();
                 bool sizevalid = false;
+                //getting valid size
                 while (!sizevalid)
                 {
                     try
@@ -78,7 +84,7 @@ namespace MazeGame
                             sizevalid = false;
                             temp = Console.ReadLine();
                         }
-                        else if (size == 1)
+                        else if (size <= 1)
                         {
                             Console.WriteLine("too small");
                             sizevalid = false;
@@ -95,9 +101,11 @@ namespace MazeGame
                     }
                 }
 
+                //getting speed
                 Console.WriteLine("speed (4 recomended)");
                 temp = Console.ReadLine();
                 bool speedvalid = false;
+                //getting valid speed
                 while (!speedvalid)
                 {
                     try
@@ -128,17 +136,25 @@ namespace MazeGame
 
                     
                 }
+
+                //generating mazes
                 if (type == "1")
                     testMaze = new Maze(new Vector2(0, 0), MazeGenerator.generateBinary(size), 480);
                 else if (type == "2")
                     testMaze = new Maze(new Vector2(0, 0), MazeGenerator.generateSideWidener(size), 480);
                 else
+                {
+                    if (size > 30)
+                        Console.WriteLine("this migh take a few seconds");
+
                     testMaze = new Maze(new Vector2(0, 0), MazeGenerator.generateWilsons(size), 480);
+                }
+                //updating speed
                 testMaze.player.speed = speed;
 
             }
             
-            
+            //updating maze
             testMaze.update(gameTime);
             base.Update(gameTime);
             
