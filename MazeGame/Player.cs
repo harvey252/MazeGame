@@ -12,7 +12,7 @@ namespace MazeGame
         private Vector2 end;
 
         public Vector2 position;
-        private float speed = 4f;
+        public float speed = 4f;
 
         private Color color = Color.Blue;
         private Texture2D texture = Game1.blockTexture;
@@ -175,12 +175,12 @@ namespace MazeGame
         {
             //draw trail
             foreach(Vector2 point in trail)
-                Game1.testMaze.drawPoint(_spriteBatch, point, Game1.blockTexture, Color.LightBlue);
+                Game1.testMaze.drawPoint(_spriteBatch, point, Game1.blockTexture, Color.Orange);
 
             //draw end point
-            Game1.testMaze.drawPoint(_spriteBatch, end, Game1.blockTexture, Color.Green);
+            Game1.testMaze.drawPoint(_spriteBatch, end, Game1.blockTexture, Color.Yellow);
             //draw player
-            Game1.testMaze.drawPoint(_spriteBatch, position, Game1.blockTexture, Color.Blue);
+            Game1.testMaze.drawPoint(_spriteBatch, position, Game1.blockTexture, Color.Red);
             
 
         }

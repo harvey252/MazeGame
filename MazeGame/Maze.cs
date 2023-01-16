@@ -10,7 +10,7 @@ namespace MazeGame
         public Vector2[] blocks;
         private float scale;
         public Vector2 position;
-        public Player player = new Player(new Vector2(1,1),new Vector2(5,5));
+        public Player player;
 
 
         //value of greaset point in maze needed by player for errror checking
@@ -32,14 +32,14 @@ namespace MazeGame
             }
 
             scale = System.Math.Abs( length) /(_greatest+1);
-            
+            player = new Player(new Vector2(1, 1), new Vector2(_greatest - 1, _greatest - 1));
         }
 
         public void draw(SpriteBatch _spriteBatch)
         {
             foreach (Vector2 block in blocks)
             {
-                drawPoint(_spriteBatch, block, Game1.blockTexture, Color.White);
+                drawPoint(_spriteBatch, block, Game1.blockTexture, Color.DarkBlue);
             }
             player.draw(_spriteBatch);
         }

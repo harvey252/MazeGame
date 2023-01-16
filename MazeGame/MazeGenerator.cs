@@ -124,18 +124,18 @@ namespace MazeGame
             int[,] grid = makeGrid(length);
 
             //going through each postion
-            for (int a = 1; a <= grid.GetLength(0)-1; a += 2)
+            for (int x = 1; x <= grid.GetLength(0)-1; x += 2)
             {
-                for (int b = 1; b <= grid.GetLength(1)-1; b += 2)
+                for (int y = 1; y <= grid.GetLength(1)-1; y += 2)
                 {
                     //if on the edge will have to only remove in one direction
-                    if(b ==1)
+                    if(y == 1)
                     {
-                        removeWall(ref grid, a, b, 'e');
+                        removeWall(ref grid, x, y, 'w');
                     }
-                    else if(a == length*2-1)
+                    else if(x == 1)
                     {
-                        removeWall(ref grid, a, b, 'n');
+                        removeWall(ref grid, x, y, 'n');
                     }
 
                     //desiding direction
@@ -143,14 +143,14 @@ namespace MazeGame
                     if(rand ==1)
                     {
     
-                            removeWall(ref grid, a, b, 'e');
+                            removeWall(ref grid, x, y, 'w');
                         
 
                     }
                     else 
                     {
           
-                            removeWall(ref grid, a, b, 'n');
+                            removeWall(ref grid, x, y, 'n');
           
                     }
                 }
