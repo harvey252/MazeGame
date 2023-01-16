@@ -64,7 +64,7 @@ namespace MazeGame
                 //to get valid type
                 while (type != "1" && type != "2" && type != "3")
                 {
-                    Console.WriteLine("type in valid 1, 2 or 3 ");
+                    Console.WriteLine("type invalid 1, 2 or 3 ");
                     type = (string)Console.ReadLine();
                 }
 
@@ -110,14 +110,14 @@ namespace MazeGame
                 {
                     try
                     {
-                        speed = Convert.ToInt32(temp);
+                        speed = (float)Convert.ToDouble(temp);
                         if (speed <= 0)
                         {
                             Console.WriteLine("too small");
                             speedvalid = false;
                             temp = Console.ReadLine();
                         }
-                        else if(speed>=50)
+                        else if(speed>50)
                         {
                             Console.WriteLine("too large");
                             speedvalid = false;
