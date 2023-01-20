@@ -28,6 +28,8 @@ namespace MazeGame
         protected override void Initialize()
         {
             
+
+
             // TODO: Add your initialization logic here
             blockTexture = Content.Load<Texture2D>("block");
             Console.WriteLine("hello wellcome the first prototype of my maze game\n" +
@@ -36,7 +38,15 @@ namespace MazeGame
                 "you may need to click on the window to move the player (WASD or arrow keys)\n" +
                 "think about which mazes are harder and what size you find the most fun to play\n" +
                 "at the end you can complete a short questionair");
+
+            int test = Convert.ToInt32(Console.ReadLine());
             base.Initialize();
+
+            _graphics.PreferredBackBufferWidth = 600;
+            _graphics.PreferredBackBufferHeight = 600;
+            _graphics.ApplyChanges();
+
+
         }
 
         protected override void LoadContent()
@@ -139,15 +149,15 @@ namespace MazeGame
 
                 //generating mazes
                 if (type == "1")
-                    testMaze = new Maze(new Vector2(0, 0), MazeGenerator.generateBinary(size), 480);
+                    testMaze = new Maze(new Vector2(0, 0), MazeGenerator.generateBinary(size), 600);
                 else if (type == "2")
-                    testMaze = new Maze(new Vector2(0, 0), MazeGenerator.generateSideWidener(size), 480);
+                    testMaze = new Maze(new Vector2(0, 0), MazeGenerator.generateSideWidener(size), 600);
                 else
                 {
                     if (size > 30)
                         Console.WriteLine("this migh take a few seconds");
 
-                    testMaze = new Maze(new Vector2(0, 0), MazeGenerator.generateWilsons(size), 480);
+                    testMaze = new Maze(new Vector2(0, 0), MazeGenerator.generateWilsons(size), 600);
                 }
                 //updating speed
                 testMaze.player.speed = speed;
