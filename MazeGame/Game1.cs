@@ -39,7 +39,7 @@ namespace MazeGame
                 "think about which mazes are harder and what size you find the most fun to play\n" +
                 "at the end you can complete a short questionair");
 
-            int test = Convert.ToInt32(Console.ReadLine());
+  
             base.Initialize();
 
             _graphics.PreferredBackBufferWidth = 600;
