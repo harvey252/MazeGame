@@ -7,12 +7,21 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MazeGame
 {
-    class TextDisplay
+    public class TextDisplay
     {
         Vector2 position;
-        public TextDisplay(Vector2 pos, double scale)
+        double scale;
+        Color color;
+        public TextDisplay(Vector2 inpPos, Color inpColor, double inpScale)
         {
+            position = inpPos;
+            scale = inpScale;
+            color = inpColor;
+        }
 
+        public void Draw(SpriteBatch _spriteBatch,string sting)
+        {
+            _spriteBatch.DrawString(Game1.font, sting, position, color, 0, new Vector2(0, 0), (float)scale, SpriteEffects.None, 0);
         }
     }
 }

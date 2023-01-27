@@ -12,6 +12,7 @@ namespace MazeGame
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         public static Texture2D blockTexture;
+        public static SpriteFont font;
         public static Maze testMaze=null;
 
 
@@ -32,7 +33,7 @@ namespace MazeGame
 
             // TODO: Add your initialization logic here
             blockTexture = Content.Load<Texture2D>("block");
-         
+            font = Content.Load<SpriteFont>("Score");
 
   
             base.Initialize();

@@ -18,6 +18,7 @@ namespace MazeGame
         private static double singleTimeRemaining;
         private static double singleTimeElapased;
         public static Maze singlePlayermaze;
+        private static TextDisplay timeCounter = new TextDisplay(new Vector2(0, 0), Color.White, .8f);
         public static void Update(GameTime gameTime)
         {
             switch (state)
@@ -155,6 +156,7 @@ namespace MazeGame
                         singlePlayermaze.update(gameTime);
                         singleTimeRemaining -= gameTime.ElapsedGameTime.TotalSeconds;
                         singleTimeElapased += gameTime.ElapsedGameTime.TotalSeconds;
+                        
                     }
 
                     break;
@@ -212,6 +214,8 @@ namespace MazeGame
 
                     if (singlePlayermaze != null)
                         singlePlayermaze.draw(_spriteBatch);
+
+                    timeCounter.Draw(_spriteBatch, Math.Round(singleTimeRemaining).ToString());
 
                     break;
                 case 'O':
