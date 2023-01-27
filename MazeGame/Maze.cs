@@ -2,6 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
+using System.Text;
+
 
 namespace MazeGame
 {
@@ -41,7 +44,8 @@ namespace MazeGame
             {
                 drawPoint(_spriteBatch, block, Game1.blockTexture, Color.DarkBlue);
             }
-            player.draw(_spriteBatch);
+            Maze dummy = this;
+            player.draw(_spriteBatch, ref dummy);
         }
         public void drawPoint(SpriteBatch _spriteBatch, Vector2 pos, Texture2D texture, Color color)
         {
@@ -57,9 +61,8 @@ namespace MazeGame
         }
         public void update(GameTime gameTime)
         {
-            player.update(gameTime);
+            Maze dummy = this;
+            player.update(gameTime, ref dummy);
         }
-
-   
     }
 }

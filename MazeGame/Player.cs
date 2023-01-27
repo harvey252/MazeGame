@@ -22,6 +22,10 @@ namespace MazeGame
         public bool error = false;
         public bool win = false;
 
+        //reference to maze
+        
+
+
         private List<Vector2> trail = new List<Vector2>();
 
         public Player(Vector2 startPos, Vector2 finishPos)
@@ -31,11 +35,12 @@ namespace MazeGame
             start = position;
 
             end = finishPos;
+
         }
 
-        public void update(GameTime gameTime)
+        public void update(GameTime gameTime, ref Maze maze)
         {
-            error = !pointValid(position);
+            error = !pointValid(position,ref maze);
             //temporay code stops player updating if error
             if (error)
                 return;
@@ -91,7 +96,7 @@ namespace MazeGame
 
             }
             //moves to target
-            if (!atTarget() && pointValid(target))
+            if (!atTarget() && pointValid(target,ref maze))
             {
                 //if target to right
                 if (target.X > position.X)
@@ -126,7 +131,7 @@ namespace MazeGame
                         position.Y = target.Y;
                 }
             }
-            else if (!pointValid(target))
+            else if (!pointValid(target,ref maze))
             {
                 target = position;
             }
@@ -150,11 +155,11 @@ namespace MazeGame
         }
 
         //makes sure target is allowed
-        public bool pointValid(Vector2 point)
+        public bool pointValid(Vector2 point, ref Maze maze)
         {
 
             //check target is not occupied
-            foreach (Vector2 block in Game1.testMaze.blocks)
+            foreach (Vector2 block in GameManger.singlePlayermaze.blocks)
             {
                 if (point == block) 
                 {
@@ -162,7 +167,7 @@ namespace MazeGame
                 }
             }
             //checks point is not outside the maze
-            if (position.X > Game1.testMaze.Greastest|| position.Y > Game1.testMaze.Greastest)
+            if (position.X > maze.Greastest|| position.Y > maze.Greastest)
             {
                 return false;
             }
@@ -171,16 +176,16 @@ namespace MazeGame
             return true;
         }
 
-        public void draw(SpriteBatch _spriteBatch)
+        public void draw(SpriteBatch _spriteBatch, ref Maze maze)
         {
             //draw trail
             foreach(Vector2 point in trail)
-                Game1.testMaze.drawPoint(_spriteBatch, point, Game1.blockTexture, Color.Orange);
+                maze.drawPoint(_spriteBatch, point, Game1.blockTexture, Color.Orange);
 
             //draw end point
-            Game1.testMaze.drawPoint(_spriteBatch, end, Game1.blockTexture, Color.Yellow);
+            maze.drawPoint(_spriteBatch, end, Game1.blockTexture, Color.Yellow);
             //draw player
-            Game1.testMaze.drawPoint(_spriteBatch, position, Game1.blockTexture, Color.Red);
+            maze.drawPoint(_spriteBatch, position, Game1.blockTexture, Color.Red);
             
 
         }

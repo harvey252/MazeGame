@@ -15,7 +15,7 @@ namespace MazeGame
         public static Maze testMaze=null;
 
 
-        public static GameManger gameManger = new GameManger();
+        
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -59,7 +59,7 @@ namespace MazeGame
 
             // TODO: Add your update logic here
 
-            gameManger.Update(gameTime);
+            GameManger.Update(gameTime);
 
             
         }
@@ -72,7 +72,7 @@ namespace MazeGame
             //_spriteBatch
             _spriteBatch.Begin();
             base.Draw(gameTime);
-            gameManger.Draw(_spriteBatch);
+            GameManger.Draw(_spriteBatch);
             _spriteBatch.End();
         }
     }
