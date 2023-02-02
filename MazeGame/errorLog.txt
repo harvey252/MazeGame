@@ -6,3 +6,15 @@ The content file was not found.
 The content file was not found.
 ----------------------
 The content file was not found.
+----------------------
+MazeGame.DataBaseManger.Score cannot be serialized because it does not have a parameterless constructor.
+----------------------
+MazeGame.DataBaseManger+Score is inaccessible due to its protection level. Only public types can be processed.
+----------------------
+There is an error in XML document (0, 0).
+----------------------
+There is an error in XML document (0, 0).
+----------------------
+There is an error in XML document (2, 2).
+----------------------
+There is an error in XML document (2, 2).

@@ -17,11 +17,11 @@ namespace MazeGame
                     game.Run();
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 System.IO.StreamWriter objWriter;
-                objWriter = new System.IO.StreamWriter(filePath,true);
+                objWriter = new System.IO.StreamWriter(filePath, true);
                 objWriter.WriteLine("----------------------");
                 objWriter.WriteLine(ex.Message);
                 objWriter.Close();

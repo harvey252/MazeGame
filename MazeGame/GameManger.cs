@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using System.Data.SqlTypes;
+using System.Data;
+
 namespace MazeGame
 {
     public static class GameManger
@@ -27,6 +30,7 @@ namespace MazeGame
                 case '1':
                     //main menu
 
+                    DataBaseManger.add("test", 6, 1);
 
                     //getting option
                     Console.WriteLine("single player game S or multipl player game M ");

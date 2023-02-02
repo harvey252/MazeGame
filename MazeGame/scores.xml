@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<ArrayOfScore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Score>
+    <name>test</name>
+    <mazes>6</mazes>
+    <time>888</time>
+  </Score>
+  <Score>
+    <name>test</name>
+    <mazes>6</mazes>
+    <time>6.4</time>
+  </Score>
+  <Score>
+    <name>test</name>
+    <mazes>6</mazes>
+    <time>6.4</time>
+  </Score>
+  <Score>
+    <name>test</name>
+    <mazes>6</mazes>
+    <time>1</time>
+  </Score>
+  <Score>
+    <name>test</name>
+    <mazes>6</mazes>
+    <time>1</time>
+  </Score>
+</ArrayOfScore>
