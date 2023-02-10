@@ -362,10 +362,10 @@ namespace MazeGame
                     }
                 }
             }
-            Console.WriteLine(adjecent.ToString());
-            //visted.Add(new Vector2(1, 1));
+            
+            //makring start at visted
             distance[new Vector2(1, 1)] = 0;
-            //unvisted.Remove(new Vector2(1, 1));
+            
 
             while(unvisted.Count!=0)
             {
@@ -383,7 +383,7 @@ namespace MazeGame
                         current = point;
                     }
                 }
-               // Console.WriteLine(current);
+                //addjusting distance for each connectd point
                 foreach(Vector2 point in adjecent[current])
                 {
                     if(distance[point] == -1)
@@ -404,7 +404,7 @@ namespace MazeGame
                 unvisted.Remove(current);
 
             }
-            //Console.WriteLine(grid.GetLength(0) - 2);
+
 
             return distance[new Vector2(grid.GetLength(0)-2,grid.GetLength(1)-2 )];
         }

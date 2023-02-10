@@ -219,7 +219,7 @@ namespace MazeGame
                     if (singlePlayermaze != null)
                         singlePlayermaze.draw(_spriteBatch);
 
-                    timeCounter.Draw(_spriteBatch, Math.Round(singleTimeRemaining).ToString());
+                    //timeCounter.Draw(_spriteBatch, Math.Round(singleTimeRemaining).ToString());
 
                     break;
                 case 'O':
