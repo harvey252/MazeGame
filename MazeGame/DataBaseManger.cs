@@ -44,7 +44,7 @@ namespace MazeGame
         }
 
         //gets score from XML
-        private static List<Score> getScores()
+        private static List<Score> GetScores()
         {
             //conecting to XML
             XmlSerializer reader = new XmlSerializer(typeof(List<Score>), new Type[] { typeof(Score) });
@@ -55,7 +55,7 @@ namespace MazeGame
             return scores;
         }
         //saves score
-        private static void saveScores(List<Score> scores)
+        private static void SaveScores(List<Score> scores)
         {
             //conecting to XML
             XmlSerializer writer = new XmlSerializer(typeof(List<Score>), new Type[] { typeof(Score) });
@@ -69,28 +69,32 @@ namespace MazeGame
         }
         
         //returns top score
-        public static Score getTop()
+        public static Score GetTop()
         {
-            List<Score> scores = getScores();
+            List<Score> scores = GetScores();
 
             return scores[0];
         }
 
         //returns all scores (for outside calling)
-        public static List<Score> getAll()
+        public static List<Score> GetAll()
         {
-            return getScores();
+            return GetScores();
         }
 
         //add new entry to score
-        public static void add(string enterName, int enterMazes, double entertime)
+        public static void Add(string enterName, int enterMazes, double entertime)
         {
-            List<Score> scores = getScores();
+            List<Score> scores = GetScores();
            
             scores.Add(new Score(enterName, enterMazes, entertime));
             scores.Sort();
             scores.Reverse();
-            saveScores(scores);
+            if(scores.Count>10)
+            {
+                scores.RemoveAt(scores.Count - 1);
+            }
+            SaveScores(scores);
         }
 
     }

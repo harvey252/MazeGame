@@ -89,7 +89,7 @@ namespace MazeGame
                         grid[x, y+1] = 0;
                         return true;
                     }
-                    break;
+                    
 
                 case 'e':
                     if ((x == grid.GetLength(0)-2) || (grid[x+1, y] == 0))
@@ -102,7 +102,7 @@ namespace MazeGame
                         grid[x +1, y] = 0;
                         return true;
                     }
-                    break;
+                   
 
                 case 'w':
                     if ((x == 1)|| (grid[x - 1, y] == 0))
@@ -114,7 +114,7 @@ namespace MazeGame
                         grid[x-1, y] = 0;
                         return true;
                     }
-                    break;
+                    
             }
             return false;
         }
@@ -313,9 +313,101 @@ namespace MazeGame
                 path.Clear();
             }
 
+            Console.WriteLine(getDijkstraTime(grid));
             return toVector(grid);
         }
 
+
+        public static double getDijkstraTime(int[,] grid)
+        {
+
+            Dictionary<Vector2, Vector2[]> adjecent=new Dictionary<Vector2, Vector2[]>();
+            Dictionary<Vector2,int> distance= new Dictionary<Vector2, int>();
+            List<Vector2> unvisted = new List<Vector2>();
+     
+
+
+            //creating dictionary and arries need to store distances
+            for (int x = 0; x <= grid.GetLength(0) - 1; x += 1)
+            {
+                for (int y = 0; y <= grid.GetLength(1) - 1; y += 1)
+                {
+                    if(grid[x,y]==0)
+                    {
+                        distance.Add(new Vector2(x, y), -1);
+                        unvisted.Add(new Vector2(x, y));
+                        List<Vector2> adjecentL=new List<Vector2>();
+                        if(grid[x,y-1]==0)
+                        {
+                            adjecentL.Add(new Vector2(x, y-1));
+                        }
+
+                        if (grid[x, y + 1] == 0)
+                        {
+                            adjecentL.Add(new Vector2(x, y+1));
+                        }
+
+                        if (grid[x+1, y] == 0)
+                        {
+                            adjecentL.Add(new Vector2(x+1, y));
+                        }
+
+                        if (grid[x-1, y] == 0)
+                        {
+                            adjecentL.Add(new Vector2(x-1, y));
+                        }
+
+                        adjecent.Add(new Vector2(x, y),adjecentL.ToArray());
+
+                    }
+                }
+            }
+            Console.WriteLine(adjecent.ToString());
+            //visted.Add(new Vector2(1, 1));
+            distance[new Vector2(1, 1)] = 0;
+            //unvisted.Remove(new Vector2(1, 1));
+
+            while(unvisted.Count!=0)
+            {
+                Vector2 current = Vector2.Zero ;
+                //finding shortest unvisted
+                foreach (Vector2 point in unvisted)
+                {
+                    
+                    if(current == Vector2.Zero && distance[point] != -1)
+                    {
+                        current = point;
+                    }
+                    else if (current != Vector2.Zero && distance[current] > distance[point]&& distance[point]!=-1)
+                    {
+                        current = point;
+                    }
+                }
+               // Console.WriteLine(current);
+                foreach(Vector2 point in adjecent[current])
+                {
+                    if(distance[point] == -1)
+                    {
+                        distance[point] = distance[current] + 1;
+                    }
+                    else if(distance[point]>distance[current])
+                    {
+                        //does not need to record path
+                        
+
+                        distance[point] = distance[current] + 1;
+
+                    }
+
+                }
+                
+                unvisted.Remove(current);
+
+            }
+            //Console.WriteLine(grid.GetLength(0) - 2);
+
+            return distance[new Vector2(grid.GetLength(0)-2,grid.GetLength(1)-2 )];
+        }
         
     }
 

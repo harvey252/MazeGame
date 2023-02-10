@@ -18,3 +18,23 @@ There is an error in XML document (0, 0).
 There is an error in XML document (2, 2).
 ----------------------
 There is an error in XML document (2, 2).
+----------------------
+The given key '{X:1 Y:4}' was not present in the dictionary.
+----------------------
+The given key '{X:1 Y:4}' was not present in the dictionary.
+----------------------
+The given key '{X:1 Y:4}' was not present in the dictionary.
+----------------------
+The given key '{X:1 Y:2}' was not present in the dictionary.
+----------------------
+The given key '{X:8 Y:8}' was not present in the dictionary.
+----------------------
+The given key '{X:20 Y:20}' was not present in the dictionary.
+----------------------
+The given key '{X:21 Y:21}' was not present in the dictionary.
+----------------------
+The given key '{X:6 Y:6}' was not present in the dictionary.
+----------------------
+The given key '{X:0 Y:0}' was not present in the dictionary.
+----------------------
+The given key '{X:0 Y:0}' was not present in the dictionary.

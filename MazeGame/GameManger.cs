@@ -29,8 +29,8 @@ namespace MazeGame
 
                 case '1':
                     //main menu
+                   
 
-                    DataBaseManger.add("test", 6, 1);
 
                     //getting option
                     Console.WriteLine("single player game S or multipl player game M ");
