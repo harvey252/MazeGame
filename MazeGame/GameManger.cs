@@ -16,12 +16,20 @@ namespace MazeGame
 
 
         //single player
-        private static string singleType;
-        private static int singleSize;
-        private static double singleTimeRemaining;
-        private static double singleTimeElapased;
-        public static Maze singlePlayermaze;
-        private static TextDisplay timeCounter = new TextDisplay(new Vector2(0, 0), Color.White, .8f);
+            //single settings
+            private static string singleType;
+            private static int singleSize;
+            private static bool singleDeafault;
+
+
+            //single couters
+            private static double singleTimeRemaining;
+            private static double singleTimeElapased;
+            private static int singleMazeCount;
+
+            //single game items
+            public static Maze singlePlayermaze;
+            private static TextDisplay timeCounter = new TextDisplay(new Vector2(0, 0), Color.White, .8f);
         public static void Update(GameTime gameTime)
         {
             switch (state)
@@ -33,12 +41,12 @@ namespace MazeGame
 
 
                     //getting option
-                    Console.WriteLine("single player game S or multipl player game M ");
+                    Console.WriteLine("single player game S, multi player game M or W to see scores ");
                     string tempState = (string)Console.ReadLine();
                     //to get valid type
-                    while (tempState != "M" && tempState != "S")
+                    while (tempState != "M" && tempState != "S" && tempState !="W")
                     {
-                        Console.WriteLine("invaild resposnce S or M");
+                        Console.WriteLine("invaild resposnce S, M or W");
                         tempState = (string)Console.ReadLine();
                     }
 
@@ -46,10 +54,18 @@ namespace MazeGame
                     {
                         state = 'H';
                     }
-                    else
+                    else if(tempState == "S")
                     {
                         state = 'S';
                     }
+                    else
+                    {
+                        foreach(DataBaseManger.Score i in DataBaseManger.GetAll())
+                        {
+                            Console.WriteLine(i.time + " " + i.name + " " + i.mazes);
+                        }
+                    }
+
 
                     break;
 
@@ -89,12 +105,13 @@ namespace MazeGame
                         //placeholder default vlaues
 
                         singleType="3";
-                        singleTimeRemaining=100;
+                        singleTimeRemaining=30;
                         singleSize = 10;
+                        singleDeafault = true;
                         state = 'G';
                         break;
                     }
-
+                    singleDeafault = false;
 
                     //getting type
                     Console.WriteLine("maze type 1 baisc generation, 2 medium generation, or 3 complex generation (best one) ");
@@ -140,6 +157,25 @@ namespace MazeGame
                     }
 
 
+                    Console.WriteLine("initial time");
+                    temp = Console.ReadLine();
+                    bool timeValid = false;
+                    //getting valid size
+                    while (!timeValid)
+                    {
+                        try
+                        {
+                            singleTimeRemaining = Convert.ToInt32(temp);
+                        }
+                        catch (Exception)
+                        {
+                            timeValid = false;
+                            Console.WriteLine("enter valid size");
+                            temp = Console.ReadLine();
+                        }
+                    }
+
+                    singleMazeCount = -1;
                     state = 'G';
 
                     break;
@@ -148,25 +184,61 @@ namespace MazeGame
 
                     if (singlePlayermaze == null || singlePlayermaze.player.win)
                     {
+                        singleMazeCount += 1;
+                        int[,] grid = new int[0,0];
                         if (singleType == "1")
-                            singlePlayermaze = new Maze(new Vector2(0, 0), MazeGenerator.generateBinary(singleSize), 600);
+                            grid = MazeGenerator.generateBinary(singleSize);        
                         else if (singleType == "2")
-                            singlePlayermaze = new Maze(new Vector2(0, 0), MazeGenerator.generateSideWidener(singleSize), 600);
+                            grid = MazeGenerator.generateSideWidener(singleSize);
                         else
-                            singlePlayermaze = new Maze(new Vector2(0, 0), MazeGenerator.generateWilsons(singleSize), 600);
+                            grid = MazeGenerator.generateWilsons(singleSize);
+
+                        //creating speed
+                        singlePlayermaze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(grid), 600);
+                        //adding new time
+                        singleTimeRemaining += MazeGenerator.getDijkstraTime(grid) / singlePlayermaze.player.speed;
                     }
                     else
                     {
-                        singlePlayermaze.update(gameTime);
-                        singleTimeRemaining -= gameTime.ElapsedGameTime.TotalSeconds;
-                        singleTimeElapased += gameTime.ElapsedGameTime.TotalSeconds;
+                        if (singleTimeRemaining >= 0)
+                        {
+                            singlePlayermaze.update(gameTime);
+                            singleTimeRemaining -= gameTime.ElapsedGameTime.TotalSeconds;
+                            singleTimeElapased += gameTime.ElapsedGameTime.TotalSeconds;
+                        }
+                        else
+                        {
+                            state = 'O';
+                        }
                         
                     }
 
                     break;
                 case 'O':
                     //single playe game over
+                    Console.WriteLine("Game over");
+                    Console.WriteLine("time: " + singleTimeElapased.ToString());
+                    Console.WriteLine("mazes: " + singleMazeCount.ToString());
 
+                   
+                    if (singleDeafault)
+                    {
+                        
+                        Console.WriteLine("would you like to record you score");
+
+                        temp = (string)Console.ReadLine();
+                        if (temp == "y")
+                        {
+
+                            Console.WriteLine("what is your name");
+                            temp = Console.ReadLine();
+                            DataBaseManger.Add(temp, singleMazeCount, singleTimeElapased);
+                            
+                        }
+
+                    }
+
+                    state = '1';
                     break;
 
             }
@@ -219,7 +291,7 @@ namespace MazeGame
                     if (singlePlayermaze != null)
                         singlePlayermaze.draw(_spriteBatch);
 
-                    //timeCounter.Draw(_spriteBatch, Math.Round(singleTimeRemaining).ToString());
+                    timeCounter.Draw(_spriteBatch, Math.Round(singleTimeRemaining).ToString());
 
                     break;
                 case 'O':

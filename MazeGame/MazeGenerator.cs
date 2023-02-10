@@ -25,7 +25,7 @@ namespace MazeGame
                 }
             }
 
-            //putting in teh rest of the rows
+            //putting in the rest of the rows
             for (int a = 1; a <= size * 2; a += 2)
             {
                 for (int b = 0; b <= size * 2; b+=2)
@@ -40,7 +40,7 @@ namespace MazeGame
         }
 
         //turns 2d array into array of vectors used by the maze class
-        private static Vector2[] toVector(int[,] grid)
+        public static Vector2[] toVector(int[,] grid)
         {
             List<Vector2> maze = new List<Vector2>();
 
@@ -119,7 +119,7 @@ namespace MazeGame
             return false;
         }
 
-        public static Vector2[] generateBinary(int length)
+        public static int[,] generateBinary(int length)
         {
             int[,] grid = makeGrid(length);
 
@@ -156,9 +156,9 @@ namespace MazeGame
                 }
             }
 
-            return toVector(grid);
+            return grid;
         }
-        public static Vector2[] generateSideWidener(int length)
+        public static int[,] generateSideWidener(int length)
         {
             int[,] grid = makeGrid(length);
             
@@ -193,10 +193,10 @@ namespace MazeGame
             }
 
             
-            return toVector(grid);
+            return grid;
         }
 
-        public static Vector2[] generateWilsons(int length)
+        public static int[,] generateWilsons(int length)
         {
             int[,] grid = makeGrid(length);
 
@@ -314,7 +314,7 @@ namespace MazeGame
             }
 
             Console.WriteLine(getDijkstraTime(grid));
-            return toVector(grid);
+            return grid;
         }
 
 
