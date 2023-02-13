@@ -160,12 +160,21 @@ namespace MazeGame
                     Console.WriteLine("initial time");
                     temp = Console.ReadLine();
                     bool timeValid = false;
-                    //getting valid size
+                    //getting valid time
                     while (!timeValid)
                     {
                         try
                         {
                             singleTimeRemaining = Convert.ToInt32(temp);
+
+                            if (singleTimeRemaining <= 1)
+                            {
+                                Console.WriteLine("too small");
+                                timeValid = false;
+                                temp = Console.ReadLine();
+                            }
+                            else
+                                timeValid = true;
                         }
                         catch (Exception)
                         {
@@ -182,6 +191,8 @@ namespace MazeGame
                 case 'G':
                     //single player game
 
+
+                    //if new maze is required
                     if (singlePlayermaze == null || singlePlayermaze.player.win)
                     {
                         singleMazeCount += 1;
@@ -198,6 +209,7 @@ namespace MazeGame
                         //adding new time
                         singleTimeRemaining += MazeGenerator.getDijkstraTime(grid) / singlePlayermaze.player.speed;
                     }
+                    //nomral operation
                     else
                     {
                         if (singleTimeRemaining >= 0)
@@ -206,6 +218,7 @@ namespace MazeGame
                             singleTimeRemaining -= gameTime.ElapsedGameTime.TotalSeconds;
                             singleTimeElapased += gameTime.ElapsedGameTime.TotalSeconds;
                         }
+                        //ending game
                         else
                         {
                             state = 'O';
@@ -220,7 +233,7 @@ namespace MazeGame
                     Console.WriteLine("time: " + singleTimeElapased.ToString());
                     Console.WriteLine("mazes: " + singleMazeCount.ToString());
 
-                   
+                    //recording score
                     if (singleDeafault)
                     {
                         
