@@ -60,7 +60,7 @@ namespace MazeGame
 
             // TODO: Add your update logic here
 
-            GameManger.Update(gameTime);
+            GameManager.Update(gameTime);
 
             
         }
@@ -73,7 +73,7 @@ namespace MazeGame
             //_spriteBatch
             _spriteBatch.Begin();
             base.Draw(gameTime);
-            GameManger.Draw(_spriteBatch);
+            GameManager.Draw(_spriteBatch);
             _spriteBatch.End();
         }
     }

@@ -159,7 +159,7 @@ namespace MazeGame
         {
 
             //check target is not occupied
-            foreach (Vector2 block in GameManger.singlePlayermaze.blocks)
+            foreach (Vector2 block in GameManager.singlePlayermaze.blocks)
             {
                 if (point == block) 
                 {

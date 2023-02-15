@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace MazeGame
 {
-    public static class DataBaseManger
+    public static class DataBaseManager
     {
 
         //score class holds score enties
