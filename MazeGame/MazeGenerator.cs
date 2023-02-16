@@ -56,6 +56,53 @@ namespace MazeGame
 
             return maze.ToArray();
         }
+
+        //turns int array to string for network transmission
+        public static string toString(int[,] grid)
+        {
+            string maze = "";
+
+            for (int i = 0; i < grid.GetLength(0); i++)
+            {
+                for (int j = 0; j < grid.GetLength(1); j++)
+                {
+                    maze +=grid[i, j];
+                }
+                maze += "\n";
+            }
+
+            return maze;
+        }
+
+        //turns string maze to int for when transmission resived
+        public static int[,] fromString(string maze)
+        {
+            int[,] grid = new int[maze.Split('\n').Length, maze.Split('\n').Length];
+            int x = 0;
+            int y = 0;
+            foreach(char i in maze.ToCharArray())
+            {
+                if(i=='1')
+                {
+                    grid[x, y] = 1;
+                    x += 1;
+                }
+                else if(i=='0')
+                {
+                    grid[x, y] = 0;
+                    x += 1;
+                }
+                else if(i=='n')
+                {
+                    y += 1;
+                }
+            }
+
+            return grid;
+            
+        }
+
+
         //remove compass direction and returns true if succssful
         //it wont be successful if there is no wall there or it is a wall
         private static bool removeWall(ref int[,]grid, int x, int y, char direction)
@@ -313,7 +360,6 @@ namespace MazeGame
                 path.Clear();
             }
 
-            Console.WriteLine(getDijkstraTime(grid));
             return grid;
         }
 

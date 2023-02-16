@@ -8,7 +8,10 @@ namespace Packets
         PlayerDisconnectsPacket,
         PositionPacket,
         SpawnPacket,
-        ColorPacket
+        NewPlayer,
+        WinTime,
+        Rematch,
+        Mazes
     }
 
     public interface IPacket
@@ -55,6 +58,7 @@ namespace Packets
         }
     }
 
+    //contains the postion of another player
     public class PositionPacket : Packet
     {
         public float X { get; set; }
@@ -77,21 +81,92 @@ namespace Packets
         }
     }
 
-    public class ColorPacket : Packet
+    //contains the colour and name of a new player
+    public class NewPlayer : Packet
     {
-        public string color { get; set; }
+        public string colour { get; set; }
+        public string name { get; set; }
         public override void PacketToNetOutGoingMessage(NetOutgoingMessage message)
         {
-            message.Write((byte)PacketTypes.ColorPacket);
-            message.Write(color);
+            message.Write((byte)PacketTypes.NewPlayer);
+            message.Write(colour);
+            message.Write(name);
         }
 
         public override void NetIncomingMessageToPacket(NetIncomingMessage message)
         {
-            color = message.ReadString();
+            colour = message.ReadString();
+            name = message.ReadString();
         }
 
     }
-    
-    
+    //contains the time in seconds and min a win is made
+    public class WinTime : Packet
+    {
+        public int seconds { get; set; }
+        public int min { get; set; }
+        public override void PacketToNetOutGoingMessage(NetOutgoingMessage message)
+        {
+            message.Write((byte)PacketTypes.WinTime);
+            message.Write(seconds);
+            message.Write(min);
+        }
+
+        public override void NetIncomingMessageToPacket(NetIncomingMessage message)
+        {
+            seconds = message.ReadInt32();
+            min = message.ReadInt32();
+        }
+
+    }
+
+    //contains weather the user would like a rematch
+    public class Rematch : Packet
+    {
+        public bool answer { get; set; }
+
+        public override void PacketToNetOutGoingMessage(NetOutgoingMessage message)
+        {
+            message.Write((byte)PacketTypes.NewPlayer);
+            message.Write(answer);
+        }
+
+        public override void NetIncomingMessageToPacket(NetIncomingMessage message)
+        {
+            answer = message.ReadBoolean();
+
+        }
+
+    }
+
+    //contains the mazes the player will use
+    public class Mazes : Packet
+    {
+        public int[][,] mazes { get; set; }
+        private int numberOfMazes;
+
+        public override void PacketToNetOutGoingMessage(NetOutgoingMessage message)
+        {
+            message.Write((byte)PacketTypes.Mazes);
+            numberOfMazes = mazes.Length;
+            message.Write(numberOfMazes);
+            foreach(int[,] maze in mazes)
+            {
+                message.Write(MazeGame.MazeGenerator.toString(maze));
+            }
+        }
+
+        public override void NetIncomingMessageToPacket(NetIncomingMessage message)
+        {
+            numberOfMazes = message.ReadInt32();
+            mazes = new int[numberOfMazes][,];
+            for(int n = 0; n < numberOfMazes; n += 1)
+            {
+                mazes[n] = MazeGame.MazeGenerator.fromString(message.ReadString());
+            }
+
+        }
+
+    }
+
 }
