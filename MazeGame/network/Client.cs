@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using Lidgren.Network;
 using System.Threading;
-
+//192.168.1.252
 namespace MazeGame
 {
     public class Client
     {
-     
-        public Client()
+        string IP;
+        public Client(string IPinput)
         {
-            
+            IP = IPinput;
 
             Thread thread = new Thread(Listen);
             thread.Start();
@@ -23,7 +23,7 @@ namespace MazeGame
             var config = new NetPeerConfiguration("application name");
             var client = new NetClient(config);
             client.Start();
-            client.Connect(host: "192.168.1.252", port: 3074);
+            client.Connect(host: IP, port: 3074);
             while (true)
             {
                 var sendMessage = client.CreateMessage();

@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <ArrayOfScore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-
+  <Score>
+    <name>dominic</name>
+    <mazes>12</mazes>
+    <time>155.00031000001172</time>
+  </Score>
   <Score>
     <name>harvey</name>
     <mazes>7</mazes>
