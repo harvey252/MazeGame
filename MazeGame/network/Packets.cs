@@ -63,21 +63,21 @@ namespace Packets
     {
         public float X { get; set; }
         public float Y { get; set; }
-        public string player { get; set; }
+
 
         public override void PacketToNetOutGoingMessage(NetOutgoingMessage message)
         {
             message.Write((byte)PacketTypes.PositionPacket);
             message.Write(X);
             message.Write(Y);
-            message.Write(player);
+
         }
 
         public override void NetIncomingMessageToPacket(NetIncomingMessage message)
         {
             X = message.ReadFloat();
             Y = message.ReadFloat();
-            player = message.ReadString();
+
         }
     }
 
@@ -143,6 +143,8 @@ namespace Packets
     public class Mazes : Packet
     {
         public int[][,] mazes { get; set; }
+
+        //needed to know how meny times to read from packet
         private int numberOfMazes;
 
         public override void PacketToNetOutGoingMessage(NetOutgoingMessage message)
@@ -150,6 +152,7 @@ namespace Packets
             message.Write((byte)PacketTypes.Mazes);
             numberOfMazes = mazes.Length;
             message.Write(numberOfMazes);
+            //converts mazes to strings
             foreach(int[,] maze in mazes)
             {
                 message.Write(MazeGame.MazeGenerator.toString(maze));
@@ -160,6 +163,7 @@ namespace Packets
         {
             numberOfMazes = message.ReadInt32();
             mazes = new int[numberOfMazes][,];
+            //converts mazes back to int[,]
             for(int n = 0; n < numberOfMazes; n += 1)
             {
                 mazes[n] = MazeGame.MazeGenerator.fromString(message.ReadString());
