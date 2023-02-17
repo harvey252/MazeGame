@@ -38,6 +38,7 @@ namespace MazeGame
 
                     Console.WriteLine("colour red R, yellow Y, Blue B, green G");
                     string tempState = (string)Console.ReadLine();
+                    playername = tempState;
                     //to get valid type
                     while (tempState != "R" && tempState != "Y" && tempState != "B" && tempState != "G")
                     {
@@ -69,7 +70,7 @@ namespace MazeGame
 
                     if (tempState == "H")
                     {
-                        host = new Host();
+                        
                         //need to know if independent of dependent
 
                         Console.WriteLine("would you like to have the same settings as your oppenent (S) or different settings (D)");
@@ -92,6 +93,8 @@ namespace MazeGame
                             Console.WriteLine("other player settings");
                             clientMazes = getMazes();
                         }
+
+                        host = new Host(playername,playerColor.ToString(), mazes);
                         state = 'H';
 
                     }
@@ -99,7 +102,7 @@ namespace MazeGame
                     {
                         Console.WriteLine("when ready enter host IP");
                         tempState = (string)Console.ReadLine();
-                        client = new Client(tempState);
+                        client = new Client(tempState,playername,playerColor.ToString());
                         state = 'C';
                     }
 

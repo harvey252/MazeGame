@@ -10,47 +10,70 @@ namespace MazeGame
 	{
 
 
-			private Thread thread;
+	    private Thread thread;
+        private NetConnection clientConnnection;
 
-
-			public Host()
-			{
-			
-			thread = new Thread(Listen);
-				thread.Start();
+        private string name;
+        private string color;
+        private int[][,] mazes;
+		public Host(string inputName, string inputColor,int[][,] inpMazes)
+        {
+            name = inputName;
+            color = inputColor;
+            mazes = inpMazes;
+            thread = new Thread(Listen);
+			thread.Start();
                
-            }
+        }
 
-			public void Listen()
-			{
-                var config = new NetPeerConfiguration("application name")
-                { Port = 3074 };
-                var server = new NetServer(config);
+		public void Listen()
+        { 
+            var config = new NetPeerConfiguration("application name")
+            { Port = 433 };
+            var server = new NetServer(config);
+            
+            server.Start();
+            bool waiting = true;
+            NetIncomingMessage message;
 
-                server.Start();
-                NetIncomingMessage message;
-                while (true)
-                {
-                    while ((message = server.ReadMessage()) != null)
+
+            while (waiting)
+            {
+                if((message = server.ReadMessage()) != null)
+                { 
+                    
+
+                    if ((int)message.ReadByte() == (int)PacketTypes.NewPlayer)
                     {
 
+                        clientConnnection = message.SenderConnection;
+                        NewPlayer packet=new NewPlayer(); 
+                        //i think error is here
+                        packet.NetIncomingMessageToPacket(message);
+                        Console.WriteLine(packet.name+" "+packet.colour);
 
-                        Console.WriteLine(NetUtility.ToHexString(message.SenderConnection.RemoteUniqueIdentifier));
-                        Console.WriteLine(message.ReadString());
+                        //reponds with same packet
+                        NetOutgoingMessage outMessage = server.CreateMessage();
+                        new NewPlayer() { name = name, colour = color }.PacketToNetOutGoingMessage(outMessage);
+                        server.SendMessage(outMessage,clientConnnection, NetDeliveryMethod.ReliableOrdered);
+                        server.FlushSendQueue();
+                        //reponds with mazes
+                        //outMessage = server.CreateMessage();
+                        //new Mazes() { mazes = mazes }.PacketToNetOutGoingMessage(outMessage);
+                        //server.SendMessage(outMessage, server.Connections[0], NetDeliveryMethod.ReliableOrdered);
+                        //server.FlushSendQueue();
 
-                        var newmessage = server.CreateMessage();
-                        newmessage.Write(Console.ReadLine());
-                        server.SendMessage(newmessage, message.SenderConnection, NetDeliveryMethod.ReliableOrdered);
-
+                        
                     }
-              
-                
+                    else
+                    {
+                        Console.WriteLine(message.ReadString());
+                    }
                 }
-
             }
 
-
-            
+    
+        }
 		
 	}
 }
