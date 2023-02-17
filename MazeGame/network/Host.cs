@@ -42,10 +42,10 @@ namespace MazeGame
                 if((message = server.ReadMessage()) != null)
                 { 
                     
-
-                    if ((int)message.ReadByte() == (int)PacketTypes.NewPlayer)
+                    //cannot tell between packet types?
+                    if (message.MessageType == NetIncomingMessageType.Data&& message.ReadByte()==(byte)PacketTypes.NewPlayer)
                     {
-
+                        
                         clientConnnection = message.SenderConnection;
                         NewPlayer packet=new NewPlayer(); 
                         //i think error is here
@@ -58,11 +58,12 @@ namespace MazeGame
                         server.SendMessage(outMessage,clientConnnection, NetDeliveryMethod.ReliableOrdered);
                         server.FlushSendQueue();
                         //reponds with mazes
-                        //outMessage = server.CreateMessage();
-                        //new Mazes() { mazes = mazes }.PacketToNetOutGoingMessage(outMessage);
-                        //server.SendMessage(outMessage, server.Connections[0], NetDeliveryMethod.ReliableOrdered);
-                        //server.FlushSendQueue();
-
+                        outMessage = server.CreateMessage();
+                        new Mazes() { mazes = mazes }.PacketToNetOutGoingMessage(outMessage);
+                        server.SendMessage(outMessage, clientConnnection, NetDeliveryMethod.ReliableOrdered);
+                        server.FlushSendQueue();
+                        waiting = false;
+                        Console.WriteLine("connected");
                         
                     }
                     else
