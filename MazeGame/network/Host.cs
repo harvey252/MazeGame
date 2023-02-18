@@ -35,7 +35,7 @@ namespace MazeGame
             server.Start();
             bool waiting = true;
             NetIncomingMessage message;
-
+            NetOutgoingMessage outMessage;
 
             while (waiting)
             {
@@ -53,28 +53,31 @@ namespace MazeGame
                         Console.WriteLine(packet.name+" "+packet.colour);
 
                         //reponds with same packet
-                        NetOutgoingMessage outMessage = server.CreateMessage();
+                        outMessage = server.CreateMessage();
                         new NewPlayer() { name = name, colour = color }.PacketToNetOutGoingMessage(outMessage);
                         server.SendMessage(outMessage,clientConnnection, NetDeliveryMethod.ReliableOrdered);
                         server.FlushSendQueue();
-                        //reponds with mazes
-                        outMessage = server.CreateMessage();
-                        new Mazes() { mazes = mazes }.PacketToNetOutGoingMessage(outMessage);
-                        server.SendMessage(outMessage, clientConnnection, NetDeliveryMethod.ReliableOrdered);
-                        server.FlushSendQueue();
+
                         waiting = false;
-                        Console.WriteLine("connected");
                         
                     }
                     else
                     {
-                        Console.WriteLine(message.ReadString());
+                       // Console.WriteLine(message.ReadString());
                     }
                 }
             }
 
-    
+            //reponds with mazes
+            outMessage = server.CreateMessage();
+            outMessage = server.CreateMessage();
+            new Mazes() { mazes = mazes }.PacketToNetOutGoingMessage(outMessage);
+            server.SendMessage(outMessage, clientConnnection, NetDeliveryMethod.ReliableOrdered);
+            server.FlushSendQueue();
+            waiting = false;
+            Console.WriteLine("connected");
         }
+       
 		
 	}
 }

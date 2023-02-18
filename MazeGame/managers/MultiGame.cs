@@ -10,8 +10,8 @@ namespace MazeGame
         //settings
         public static int[][,] mazes;
         public static int[][,] clientMazes;
-        public static Color playerColor;
-        public static Color oppoentColor;
+        public static string playerColor;
+        public static string oppoentColor;
         public static string playername;
         public static string oppoentName;
 
@@ -47,13 +47,13 @@ namespace MazeGame
                     }
 
                     if (tempState == "R")
-                        playerColor = Color.Red;
+                        playerColor = "Red";
                     else if (tempState == "Y")
-                        playerColor = Color.Yellow;
+                        playerColor = "Yellow";
                     else if (tempState == "B")
-                        playerColor = Color.Blue;
+                        playerColor = "Blue";
                     else
-                        playerColor = Color.Green;
+                        playerColor = "Green";
 
                     Console.WriteLine("name? ");
                     playername = Console.ReadLine();
@@ -94,7 +94,7 @@ namespace MazeGame
                             clientMazes = getMazes();
                         }
 
-                        host = new Host(playername,playerColor.ToString(), mazes);
+                        host = new Host(playername,playerColor,mazes);
                         state = 'H';
 
                     }
@@ -102,7 +102,7 @@ namespace MazeGame
                     {
                         Console.WriteLine("when ready enter host IP");
                         tempState = (string)Console.ReadLine();
-                        client = new Client(tempState,playername,playerColor.ToString());
+                        client = new Client(tempState,playername,playerColor);
                         state = 'C';
                     }
 

@@ -42,6 +42,7 @@ namespace MazeGame
         //turns 2d array into array of vectors used by the maze class
         public static Vector2[] toVector(int[,] grid)
         {
+  
             List<Vector2> maze = new List<Vector2>();
 
             for (int i = 0; i< grid.GetLength(0); i++)
@@ -70,14 +71,15 @@ namespace MazeGame
                 }
                 maze += "\n";
             }
-
+            Console.WriteLine(maze);
             return maze;
         }
 
         //turns string maze to int for when transmission resived
         public static int[,] fromString(string maze)
         {
-            int[,] grid = new int[maze.Split('\n').Length, maze.Split('\n').Length];
+            Console.WriteLine(maze);
+            int[,] grid = new int[maze.Split('\n').Length+1, maze.Split('\n').Length+1];
             int x = 0;
             int y = 0;
             foreach(char i in maze.ToCharArray())
@@ -92,8 +94,11 @@ namespace MazeGame
                     grid[x, y] = 0;
                     x += 1;
                 }
-                else if(i=='n')
+                
+                //set x and move down when x gets too big
+                if(x>= maze.Split('\n').Length)
                 {
+                    x = 0;
                     y += 1;
                 }
             }

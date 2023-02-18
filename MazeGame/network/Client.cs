@@ -13,6 +13,10 @@ namespace MazeGame
         string IP;
         string name;
         string color;
+        int[][,] mazes;
+
+        string hostName;
+        string hostColor;
         public Client(string IPinput,string inputName,string inputColor)
         {
             name = inputName;
@@ -51,15 +55,33 @@ namespace MazeGame
             {
                 if ((message = client.ReadMessage()) != null)
                 {
+                    var type = (int)message.ReadByte();
 
-
-                    if ((int)message.ReadByte() == (int)PacketTypes.NewPlayer)
+                    if (type == (int)PacketTypes.NewPlayer)
                     {
                         NewPlayer packet = new NewPlayer();
                         packet.NetIncomingMessageToPacket(message);
                         Console.WriteLine(packet.name + " " + packet.colour);
-                        waiting = false;
+
+                        hostName = packet.name;
+                        hostColor = packet.colour;
+                        if (mazes != null)
+                        {
+                            waiting = false;
+                        }
                         Console.WriteLine("connected");
+                    }
+                    else if (type == (int)PacketTypes.Mazes)
+                    {
+                        Mazes packet = new Mazes();
+                        packet.NetIncomingMessageToPacket(message);
+                        mazes = packet.mazes;
+                        if (hostName != null)
+                        {
+                            waiting = false;
+                        }
+                        Console.WriteLine("resived mazes");
+                        
                     }
                 }
                 else
