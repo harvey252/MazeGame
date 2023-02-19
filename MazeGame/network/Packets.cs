@@ -142,18 +142,31 @@ namespace Packets
     //contains the mazes the player will use
     public class Mazes : Packet
     {
-        public int[][,] mazes { get; set; }
+        public int[][,] hostMazes { get; set; }
+        public int[][,] clientMazes { get; set; }
 
         //needed to know how meny times to read from packet
-        private int numberOfMazes;
+        private int numberOfHostMazes;
+        private int numberOfClientMazes;
 
         public override void PacketToNetOutGoingMessage(NetOutgoingMessage message)
         {
+            //host mazes
             message.Write((byte)PacketTypes.Mazes);
-            numberOfMazes = mazes.Length;
-            message.Write(numberOfMazes);
+            numberOfHostMazes = hostMazes.Length;
+            message.Write(numberOfHostMazes);
             //converts mazes to strings
-            foreach(int[,] maze in mazes)
+            foreach(int[,] maze in hostMazes)
+            {
+                message.Write(MazeGame.MazeGenerator.toString(maze));
+            }
+
+            //client mazes
+            message.Write((byte)PacketTypes.Mazes);
+            numberOfClientMazes = clientMazes.Length;
+            message.Write(numberOfClientMazes);
+            //converts mazes to strings
+            foreach (int[,] maze in clientMazes)
             {
                 message.Write(MazeGame.MazeGenerator.toString(maze));
             }
@@ -161,12 +174,23 @@ namespace Packets
 
         public override void NetIncomingMessageToPacket(NetIncomingMessage message)
         {
-            numberOfMazes = message.ReadInt32();
-            mazes = new int[numberOfMazes][,];
+            //host mazes
+            numberOfHostMazes = message.ReadInt32();
+            hostMazes = new int[numberOfClientMazes][,];
             //converts mazes back to int[,]
-            for(int n = 0; n < numberOfMazes; n += 1)
+            for(int n = 0; n < numberOfHostMazes; n += 1)
             {
-                mazes[n] = MazeGame.MazeGenerator.fromString(message.ReadString());
+                hostMazes[n] = MazeGame.MazeGenerator.fromString(message.ReadString());
+            }
+
+
+            //client mazes
+            numberOfClientMazes = message.ReadInt32();
+            clientMazes = new int[numberOfClientMazes][,];
+            //converts mazes back to int[,]
+            for (int n = 0; n < numberOfClientMazes; n += 1)
+            {
+                clientMazes[n] = MazeGame.MazeGenerator.fromString(message.ReadString());
             }
 
         }
