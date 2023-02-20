@@ -30,6 +30,8 @@ namespace MazeGame
         {
             base.draw(_spriteBatch);
             drawPoint(_spriteBatch, playerPos, Game1.blockTexture, playerColor);
+            drawPoint(_spriteBatch, new Vector2(greatest - 1, greatest - 1), Game1.blockTexture, Color.Yellow);
+            
         }
     }
 }

@@ -27,7 +27,7 @@ namespace MazeGame
         public bool game=true;
         public Vector2 clientPos;
         public int clientMazeIndex;
-        
+        public int clientIndex;
 		public Host(string inputName, string inputColor,int[][,] inpHostMazes,int[][,]inpClientMazes)
         {
             name = inputName;
@@ -112,6 +112,7 @@ namespace MazeGame
                 if ((message = server.ReadMessage()) != null)
                 {
                     var type = (int)message.ReadByte();
+                     
 
                     switch (type)
                     {
@@ -126,6 +127,14 @@ namespace MazeGame
                         case (int)PacketTypes.WinTime:
                             game = false;
                             Console.WriteLine("you lose");
+                            break;
+                        case (int)PacketTypes.NextMaze:
+
+                            NextMaze packetNext = new NextMaze();
+                            packetNext.NetIncomingMessageToPacket(message);
+
+                            clientIndex = packetNext.index;
+
                             break;
                     }
                 }
@@ -144,6 +153,15 @@ namespace MazeGame
         {
             NetOutgoingMessage outMessage = server.CreateMessage();
             new WinTime() { seconds = DateTime.Now.Second,min = DateTime.Now.Minute }.PacketToNetOutGoingMessage(outMessage);
+            server.SendMessage(outMessage, clientConnnection, NetDeliveryMethod.ReliableOrdered);
+            server.FlushSendQueue();
+        }
+
+
+        public void nextMaze(int index)
+        {
+            NetOutgoingMessage outMessage = server.CreateMessage();
+            new NextMaze() { index = index }.PacketToNetOutGoingMessage(outMessage);
             server.SendMessage(outMessage, clientConnnection, NetDeliveryMethod.ReliableOrdered);
             server.FlushSendQueue();
         }

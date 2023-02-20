@@ -17,7 +17,7 @@ namespace MazeGame
         public string playername;
         public string oppoentName;
 
-        private displayMaze displayMaze;
+        public displayMaze displayMaze;
 
         private Host host;
         private Client client;
@@ -142,6 +142,7 @@ namespace MazeGame
                             if (counter < clientMazes.Length)
                             {
                                 maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(client.clientMazes[counter]), 600);
+                                client.nextMaze(counter);
                             }
                             else
                             {
@@ -155,13 +156,14 @@ namespace MazeGame
                             maze.update(gameTime);
                             client.sendpostion(maze.player.position.X, maze.player.position.Y);
                             displayMaze.playerPos = client.hostPos;
+                            displayMaze.blocks = MazeGenerator.toVector(hostMazes[client.hostMazeIndex]);
                         }
                     }
 
                     break;
 
                 case 'H':
-
+                    
                     if (!host.waiting&&host.game)
                     {
                         if (maze == null)
@@ -177,6 +179,7 @@ namespace MazeGame
                             if (counter < hostMazes.Length)
                             {
                                 maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(hostMazes[counter]), 600);
+                                host.nextMaze(counter);
                             }
                             else
                             {
@@ -190,6 +193,7 @@ namespace MazeGame
                             maze.update(gameTime);
                             host.sendpostion(maze.player.position.X, maze.player.position.Y);
                             displayMaze.playerPos = host.clientPos;
+                            displayMaze.blocks = MazeGenerator.toVector(clientMazes[host.clientMazeIndex]);
                         }
                     }
 

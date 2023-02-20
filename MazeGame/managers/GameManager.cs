@@ -9,7 +9,7 @@ namespace MazeGame
         private static char state = '1';
 
         private static SingleGame singleGame;
-        private static MultiGame multiGame;
+        public static MultiGame multiGame;
         
 
 

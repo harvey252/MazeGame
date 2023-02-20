@@ -148,6 +148,16 @@ namespace MazeGame
                             Console.WriteLine("you lose");
 
                             break;
+                        case (int)PacketTypes.NextMaze:
+
+                            NextMaze packetNext = new NextMaze();
+                            packetNext.NetIncomingMessageToPacket(message);
+
+                            hostMazeIndex = packetNext.index;
+                            GameManager.multiGame.displayMaze.blocks = MazeGenerator.toVector(hostMazes[hostMazeIndex]);
+
+                            break;
+
                     }
                 }
             }
@@ -166,6 +176,14 @@ namespace MazeGame
         {
             NetOutgoingMessage outMessage = client.CreateMessage();
             new WinTime() { seconds = DateTime.Now.Second, min = DateTime.Now.Minute }.PacketToNetOutGoingMessage(outMessage);
+            client.SendMessage(outMessage, NetDeliveryMethod.ReliableOrdered);
+            client.FlushSendQueue();
+        }
+
+        public void nextMaze(int index)
+        {
+            NetOutgoingMessage outMessage = client.CreateMessage();
+            new NextMaze() { index = index }.PacketToNetOutGoingMessage(outMessage);
             client.SendMessage(outMessage, NetDeliveryMethod.ReliableOrdered);
             client.FlushSendQueue();
         }

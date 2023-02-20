@@ -11,7 +11,8 @@ namespace Packets
         NewPlayer,
         WinTime,
         Rematch,
-        Mazes
+        Mazes,
+        NextMaze
     }
 
     public interface IPacket
@@ -182,6 +183,25 @@ namespace Packets
 
         }
 
+
+        
+
+        }
+    public class NextMaze : Packet
+    {
+        public int index { get; set; }
+
+        public override void PacketToNetOutGoingMessage(NetOutgoingMessage message)
+        {
+            message.Write((byte)PacketTypes.NewPlayer);
+            message.Write(index);
+        }
+
+        public override void NetIncomingMessageToPacket(NetIncomingMessage message)
+        {
+            index = message.ReadInt32();
+
+        }
     }
 
 }
