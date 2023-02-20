@@ -7,6 +7,11 @@
   </Score>
   <Score>
     <name>harvey</name>
+    <mazes>10</mazes>
+    <time>139.00027800000998</time>
+  </Score>
+  <Score>
+    <name>harvey</name>
     <mazes>7</mazes>
     <time>113.00022600000716</time>
   </Score>

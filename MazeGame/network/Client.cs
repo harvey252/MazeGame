@@ -6,21 +6,29 @@ using System.Threading;
 using Packets;
 //192.168.1.252
 //192.168.1.252
+//10.210.198.91
 namespace MazeGame
 {
     public class Client
     {
-        string IP;
-        string name;
-        string color;
-        int[][,] mazes;
+        private string IP;
+        private string clientName;
+        private string clientColor;
 
-        string hostName;
-        string hostColor;
+
+        //public varables
+        public bool waiting = true;
+        public int[][,] hostMazes;
+        public int[][,] clientMazes;
+
+        public string hostName;
+        public string hostColor;
+
+
         public Client(string IPinput,string inputName,string inputColor)
         {
-            name = inputName;
-            color = inputColor;
+            clientName = inputName;
+            clientColor = inputColor;
             IP = IPinput;
 
             Thread thread = new Thread(Listen);
@@ -33,7 +41,7 @@ namespace MazeGame
             var config = new NetPeerConfiguration("application name");
             var client = new NetClient(config);
             client.Start();
-            client.Connect(host: "192.168.1.252", port: 433);
+            client.Connect(host: "10.210.198.91", port: 433);
             client.FlushSendQueue();
 
             //sending start packet
@@ -41,7 +49,7 @@ namespace MazeGame
 
 
             NetOutgoingMessage startmessage = client.CreateMessage();
-            new NewPlayer() { name = name, colour = color }.PacketToNetOutGoingMessage(startmessage);
+            new NewPlayer() { name = clientName, colour = clientColor }.PacketToNetOutGoingMessage(startmessage);
             
             client.SendMessage(startmessage, NetDeliveryMethod.ReliableOrdered);
 
@@ -50,7 +58,7 @@ namespace MazeGame
 
             //phase one waiting for connection
             NetIncomingMessage message;
-            bool waiting = true;
+            waiting = true;
             while (waiting)
             {
                 if ((message = client.ReadMessage()) != null)
@@ -62,10 +70,12 @@ namespace MazeGame
                         NewPlayer packet = new NewPlayer();
                         packet.NetIncomingMessageToPacket(message);
                         Console.WriteLine(packet.name + " " + packet.colour);
+                        hostName = packet.name;
+                        hostColor = packet.colour;
 
                         hostName = packet.name;
                         hostColor = packet.colour;
-                        if (mazes != null)
+                        if (clientMazes != null&&hostMazes!=null)
                         {
                             waiting = false;
                         }
@@ -75,19 +85,37 @@ namespace MazeGame
                     {
                         Mazes packet = new Mazes();
                         packet.NetIncomingMessageToPacket(message);
-                        mazes = packet.mazes;
-                        if (hostName != null)
+                        if(packet.mazeType=="both")
+                        {
+                            Console.WriteLine("playing with same mazes");
+                            clientMazes = packet.mazes;
+                            hostMazes = packet.mazes;
+                        }
+                        else if(packet.mazeType =="host")
+                        {
+                            Console.WriteLine("resived host mazes");
+                            hostMazes = packet.mazes;
+                        }
+                        else
+                        {
+                            Console.WriteLine("resived client mazes");
+                            clientMazes = packet.mazes;
+                        }
+
+
+                        if (hostName != null&& clientMazes != null && hostMazes != null)
                         {
                             waiting = false;
+                            Console.WriteLine("resived mazes");
                         }
-                        Console.WriteLine("resived mazes");
+                        
                         
                     }
                 }
                 else
                 {
                     startmessage = client.CreateMessage();
-                    new NewPlayer() { name = name, colour = color }.PacketToNetOutGoingMessage(startmessage);
+                    new NewPlayer() { name = clientName, colour = clientColor }.PacketToNetOutGoingMessage(startmessage);
                     client.SendMessage(startmessage, NetDeliveryMethod.ReliableOrdered);
                     client.FlushSendQueue();
                 }

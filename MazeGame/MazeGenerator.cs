@@ -71,36 +71,29 @@ namespace MazeGame
                 }
                 maze += "\n";
             }
-            Console.WriteLine(maze);
             return maze;
         }
 
         //turns string maze to int for when transmission resived
         public static int[,] fromString(string maze)
         {
-            Console.WriteLine(maze);
-            int[,] grid = new int[maze.Split('\n').Length+1, maze.Split('\n').Length+1];
+
+            int[,] grid = makeGrid((maze.Split('\n')[0].Length-1)/2);
+
             int x = 0;
-            int y = 0;
-            foreach(char i in maze.ToCharArray())
+            foreach (string row in maze.Split('\n'))
             {
-                if(i=='1')
-                {
-                    grid[x, y] = 1;
-                    x += 1;
-                }
-                else if(i=='0')
-                {
-                    grid[x, y] = 0;
-                    x += 1;
-                }
                 
-                //set x and move down when x gets too big
-                if(x>= maze.Split('\n').Length)
+                int y = 0;
+                foreach (char n in row.ToCharArray())
                 {
-                    x = 0;
+                    if (n == '1')
+                        grid[x, y] = 1;
+                    else
+                        grid[x, y] = 0;
                     y += 1;
                 }
+                x += 1;
             }
 
             return grid;
@@ -461,6 +454,5 @@ namespace MazeGame
         }
         
     }
-
 
 }

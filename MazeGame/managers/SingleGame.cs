@@ -207,6 +207,8 @@ namespace MazeGame
                     timeCounter.Draw(_spriteBatch, Math.Round(timeRemaining).ToString());
 
                     break;
+
+
             }
         }
     }

@@ -15,12 +15,21 @@ namespace MazeGame
 
         private string name;
         private string color;
-        private int[][,] mazes;
-		public Host(string inputName, string inputColor,int[][,] inpMazes)
+        private int[][,] hostMazes;
+        private int[][,] clientMazes;
+
+        
+        // public varables
+        public bool waiting=true;
+        public string clientName;
+        public string clientColor;
+
+		public Host(string inputName, string inputColor,int[][,] inpHostMazes,int[][,]inpClientMazes)
         {
             name = inputName;
             color = inputColor;
-            mazes = inpMazes;
+            hostMazes = inpHostMazes;
+            clientMazes = inpClientMazes;
             thread = new Thread(Listen);
 			thread.Start();
                
@@ -28,12 +37,13 @@ namespace MazeGame
 
 		public void Listen()
         { 
+            Console.WriteLine("wating to connect")
             var config = new NetPeerConfiguration("application name")
             { Port = 433 };
             var server = new NetServer(config);
             
             server.Start();
-            bool waiting = true;
+            waiting = true;
             NetIncomingMessage message;
             NetOutgoingMessage outMessage;
 
@@ -51,6 +61,8 @@ namespace MazeGame
                         //i think error is here
                         packet.NetIncomingMessageToPacket(message);
                         Console.WriteLine(packet.name+" "+packet.colour);
+                        clientName = packet.name;
+                        clientColor = packet.colour;
 
                         //reponds with same packet
                         outMessage = server.CreateMessage();
@@ -69,11 +81,25 @@ namespace MazeGame
             }
 
             //reponds with mazes
+            
             outMessage = server.CreateMessage();
-            outMessage = server.CreateMessage();
-            new Mazes() { mazes = mazes }.PacketToNetOutGoingMessage(outMessage);
-            server.SendMessage(outMessage, clientConnnection, NetDeliveryMethod.ReliableOrdered);
-            server.FlushSendQueue();
+
+            if (clientMazes == hostMazes)
+            {
+                new Mazes() { mazes = clientMazes, mazeType = "both" }.PacketToNetOutGoingMessage(outMessage);
+                server.SendMessage(outMessage, clientConnnection, NetDeliveryMethod.ReliableOrdered);
+                server.FlushSendQueue();
+            }
+            else
+            {
+                new Mazes() { mazes = clientMazes, mazeType = "client" }.PacketToNetOutGoingMessage(outMessage);
+                server.SendMessage(outMessage, clientConnnection, NetDeliveryMethod.ReliableOrdered);
+                server.FlushSendQueue();
+                outMessage = server.CreateMessage();
+                new Mazes() { mazes = clientMazes, mazeType = "host" }.PacketToNetOutGoingMessage(outMessage);
+                server.SendMessage(outMessage, clientConnnection, NetDeliveryMethod.ReliableOrdered);
+                server.FlushSendQueue();
+            }
             waiting = false;
             Console.WriteLine("connected");
         }

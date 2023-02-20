@@ -8,16 +8,23 @@ namespace MazeGame
     {
         public char state;
         //settings
-        public static int[][,] mazes;
-        public static int[][,] clientMazes;
-        public static string playerColor;
-        public static string oppoentColor;
-        public static string playername;
-        public static string oppoentName;
+        public int[][,] hostMazes;
+        public int[][,] clientMazes;
+        public string playerColor;
+        public string oppoentColor;
+        public string playername;
+        public string oppoentName;
 
 
-        private static Host host;
-        private static Client client;
+
+        private Host host;
+        private Client client;
+
+
+
+        //game varables
+        private Maze maze;
+        private int counter;
 
         public MultiGame()
         {
@@ -84,17 +91,18 @@ namespace MazeGame
 
                         if(tempState == "S")
                         {
-                            mazes = getMazes();
+                            hostMazes = getMazes();
+                            clientMazes = hostMazes;
                         }
                         else
                         {
                             Console.WriteLine("your settings");
-                            mazes = getMazes();
+                            hostMazes = getMazes();
                             Console.WriteLine("other player settings");
                             clientMazes = getMazes();
                         }
 
-                        host = new Host(playername,playerColor,mazes);
+                        host = new Host(playername,playerColor, hostMazes, clientMazes);
                         state = 'H';
 
                     }
@@ -113,11 +121,57 @@ namespace MazeGame
 
 
                 case 'C':
+                    counter = 0; 
+                    if(!client.waiting)
+                    {
+                        if(maze == null)
+                        {
+                            clientMazes = client.clientMazes;
+                            hostMazes = client.hostMazes;
 
+                            //empty for some reason?
+                            maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(client.clientMazes[0]), 600);
+
+                        }
+                        else if(maze.player.win)
+                        {
+                            counter += 1;
+                            if (counter < clientMazes.Length)
+                            {
+                                maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(client.clientMazes[counter]), 600);
+                            }
+                        }
+                        else
+                        {
+                            maze.update(gameTime);
+                        }
+                    }
 
                     break;
 
                 case 'H':
+                    counter = 0;
+                    if (!host.waiting)
+                    {
+                        if (maze == null)
+                        {
+ 
+                            maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(hostMazes[counter]), 600);
+
+                        }
+                        else if (maze.player.win)
+                        {
+                            counter += 1;
+                            if (counter < clientMazes.Length)
+                            {
+                                maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(hostMazes[counter]), 600);
+                            }
+                        }
+                        else
+                        {
+                            maze.update(gameTime);
+                        }
+                    }
 
                     break;
             }
@@ -128,6 +182,14 @@ namespace MazeGame
         {
             switch (state)
             {
+                case 'C':
+                    if (maze != null)
+                        maze.draw(_spriteBatch);
+                    break;
+                case 'H':
+                    if (maze != null)
+                        maze.draw(_spriteBatch);
+                    break;
             }
         }
 
@@ -189,7 +251,7 @@ namespace MazeGame
                 {
                     numberMazes = Convert.ToInt32(temp);
 
-                    if (numberMazes <= 1)
+                    if (numberMazes < 1)
                     {
                         Console.WriteLine("too small");
                         numberValid = false;
