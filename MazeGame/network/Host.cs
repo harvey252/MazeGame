@@ -97,7 +97,7 @@ namespace MazeGame
                 server.SendMessage(outMessage, clientConnnection, NetDeliveryMethod.ReliableOrdered);
                 server.FlushSendQueue();
                 outMessage = server.CreateMessage();
-                new Mazes() { mazes = clientMazes, mazeType = "host" }.PacketToNetOutGoingMessage(outMessage);
+                new Mazes() { mazes = hostMazes, mazeType = "host" }.PacketToNetOutGoingMessage(outMessage);
                 server.SendMessage(outMessage, clientConnnection, NetDeliveryMethod.ReliableOrdered);
                 server.FlushSendQueue();
             }

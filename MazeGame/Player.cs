@@ -167,7 +167,7 @@ namespace MazeGame
                 }
             }
             //checks point is not outside the maze
-            if (position.X > maze.Greastest|| position.Y > maze.Greastest)
+            if (position.X > maze.greatest|| position.Y > maze.greatest)
             {
                 return false;
             }

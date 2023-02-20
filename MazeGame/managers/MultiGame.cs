@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
+
+
 namespace MazeGame
 {
     public class MultiGame
@@ -15,14 +17,14 @@ namespace MazeGame
         public string playername;
         public string oppoentName;
 
-
+        private displayMaze displayMaze;
 
         private Host host;
         private Client client;
 
 
 
-        //game varables
+        //game varables 
         private Maze maze;
         private int counter=0;
 
@@ -131,6 +133,8 @@ namespace MazeGame
                             //empty for some reason?
                             maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(client.clientMazes[0]), 600);
 
+                            displayMaze = new displayMaze(new Vector2(600, 0), MazeGenerator.toVector(hostMazes[0]), 200,Color.Red);
+
                         }
                         else if(maze.player.win)
                         {
@@ -142,6 +146,7 @@ namespace MazeGame
                             else
                             {
                                 client.sendWin();
+                                client.game = false;
                                 Console.WriteLine("you win");
                             }
                         }
@@ -149,6 +154,7 @@ namespace MazeGame
                         {
                             maze.update(gameTime);
                             client.sendpostion(maze.player.position.X, maze.player.position.Y);
+                            displayMaze.playerPos = client.hostPos;
                         }
                     }
 
@@ -162,18 +168,20 @@ namespace MazeGame
                         {
  
                             maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(hostMazes[counter]), 600);
+                            displayMaze = new displayMaze(new Vector2(600, 0), MazeGenerator.toVector(clientMazes[0]), 200, Color.Red); ;
 
                         }
                         else if (maze.player.win)
                         {
                             counter += 1;
-                            if (counter < clientMazes.Length)
+                            if (counter < hostMazes.Length)
                             {
                                 maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(hostMazes[counter]), 600);
                             }
                             else
                             {
                                 host.sendWin();
+                                host.game = false;
                                 Console.WriteLine("you win");
                             }
                         }
@@ -181,6 +189,7 @@ namespace MazeGame
                         {
                             maze.update(gameTime);
                             host.sendpostion(maze.player.position.X, maze.player.position.Y);
+                            displayMaze.playerPos = host.clientPos;
                         }
                     }
 
@@ -196,10 +205,15 @@ namespace MazeGame
                 case 'C':
                     if (maze != null)
                         maze.draw(_spriteBatch);
+                    if (displayMaze != null)
+                        displayMaze.draw(_spriteBatch);
+
                     break;
                 case 'H':
                     if (maze != null)
                         maze.draw(_spriteBatch);
+                    if (displayMaze != null)
+                        displayMaze.draw(_spriteBatch);
                     break;
             }
         }

@@ -38,7 +38,7 @@ namespace MazeGame
   
             base.Initialize();
 
-            _graphics.PreferredBackBufferWidth = 600;
+            _graphics.PreferredBackBufferWidth = 800;
             _graphics.PreferredBackBufferHeight = 600;
             _graphics.ApplyChanges();
 
