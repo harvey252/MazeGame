@@ -14,7 +14,7 @@ namespace MazeGame
         private string IP;
         private string clientName;
         private string clientColor;
-
+        private NetClient client;
 
         //public varables
         public bool waiting = true;
@@ -39,7 +39,7 @@ namespace MazeGame
         public void Listen()
         {
             var config = new NetPeerConfiguration("application name");
-            var client = new NetClient(config);
+            client = new NetClient(config);
             client.Start();
             client.Connect(host: "10.210.198.91", port: 433);
             client.FlushSendQueue();
@@ -120,6 +120,24 @@ namespace MazeGame
                     client.FlushSendQueue();
                 }
             }
+
+
+
+        }
+        public void sendpostion(float x, float y)
+        {
+            NetOutgoingMessage outMessage = client.CreateMessage();
+            new PositionPacket() { X = x, Y = y }.PacketToNetOutGoingMessage(outMessage);
+            client.SendMessage(outMessage, NetDeliveryMethod.ReliableOrdered);
+            client.FlushSendQueue();
+        }
+
+        public void sendWin()
+        {
+            NetOutgoingMessage outMessage = client.CreateMessage();
+            new WinTime() { seconds = DateTime.Now.Second, min = DateTime.Now.Minute }.PacketToNetOutGoingMessage(outMessage);
+            client.SendMessage(outMessage, NetDeliveryMethod.ReliableOrdered);
+            client.FlushSendQueue();
         }
     }
 }

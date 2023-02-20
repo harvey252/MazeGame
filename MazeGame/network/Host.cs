@@ -17,13 +17,13 @@ namespace MazeGame
         private string color;
         private int[][,] hostMazes;
         private int[][,] clientMazes;
+        private NetServer server;
 
-        
         // public varables
         public bool waiting=true;
         public string clientName;
         public string clientColor;
-
+        
 		public Host(string inputName, string inputColor,int[][,] inpHostMazes,int[][,]inpClientMazes)
         {
             name = inputName;
@@ -36,11 +36,11 @@ namespace MazeGame
         }
 
 		public void Listen()
-        { 
-            Console.WriteLine("wating to connect")
+        {
+            Console.WriteLine("wating to connect");
             var config = new NetPeerConfiguration("application name")
             { Port = 433 };
-            var server = new NetServer(config);
+            server = new NetServer(config);
             
             server.Start();
             waiting = true;
@@ -103,7 +103,21 @@ namespace MazeGame
             waiting = false;
             Console.WriteLine("connected");
         }
-       
-		
-	}
+
+        public void sendpostion(float x, float y)
+        {
+            NetOutgoingMessage outMessage = server.CreateMessage();
+            new PositionPacket() {X=x,Y=y}.PacketToNetOutGoingMessage(outMessage);
+            server.SendMessage(outMessage, clientConnnection, NetDeliveryMethod.ReliableOrdered);
+            server.FlushSendQueue();
+        }
+
+        public void sendWin()
+        {
+            NetOutgoingMessage outMessage = server.CreateMessage();
+            new WinTime() { seconds = DateTime.Now.Second,min = DateTime.Now.Minute }.PacketToNetOutGoingMessage(outMessage);
+            server.SendMessage(outMessage, clientConnnection, NetDeliveryMethod.ReliableOrdered);
+            server.FlushSendQueue();
+        }
+    }
 }

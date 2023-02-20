@@ -180,7 +180,6 @@ namespace Packets
                 mazes[n] = MazeGame.MazeGenerator.fromString(message.ReadString());
             }
 
-
         }
 
     }

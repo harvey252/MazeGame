@@ -24,7 +24,7 @@ namespace MazeGame
 
         //game varables
         private Maze maze;
-        private int counter;
+        private int counter=0;
 
         public MultiGame()
         {
@@ -121,7 +121,6 @@ namespace MazeGame
 
 
                 case 'C':
-                    counter = 0; 
                     if(!client.waiting)
                     {
                         if(maze == null)
@@ -150,7 +149,7 @@ namespace MazeGame
                     break;
 
                 case 'H':
-                    counter = 0;
+
                     if (!host.waiting)
                     {
                         if (maze == null)
