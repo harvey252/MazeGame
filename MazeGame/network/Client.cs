@@ -4,6 +4,7 @@ using System.Text;
 using Lidgren.Network;
 using System.Threading;
 using Packets;
+using Microsoft.Xna.Framework;
 //192.168.1.252
 //192.168.1.252
 //10.210.198.91
@@ -23,6 +24,10 @@ namespace MazeGame
 
         public string hostName;
         public string hostColor;
+
+        public bool game=true;
+        public Vector2 hostPos;
+        public int hostMazeIndex;
 
 
         public Client(string IPinput,string inputName,string inputColor)
@@ -121,6 +126,31 @@ namespace MazeGame
                 }
             }
 
+            game = true;
+            while (game)
+            {
+                if ((message = client.ReadMessage()) != null)
+                {
+                    var type = (int)message.ReadByte();
+
+                    switch(type)
+                    {
+                        case (int)PacketTypes.PositionPacket:
+
+                            PositionPacket packet = new PositionPacket();
+                            packet.NetIncomingMessageToPacket(message);
+
+                            hostPos = new Vector2(packet.X, packet.Y);
+
+                            break;
+                        case (int)PacketTypes.WinTime:
+                            game = false;
+                            Console.WriteLine("you lose");
+
+                            break;
+                    }
+                }
+            }
 
 
         }

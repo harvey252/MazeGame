@@ -121,7 +121,7 @@ namespace MazeGame
 
 
                 case 'C':
-                    if(!client.waiting)
+                    if(!client.waiting&&client.game)
                     {
                         if(maze == null)
                         {
@@ -139,10 +139,16 @@ namespace MazeGame
                             {
                                 maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(client.clientMazes[counter]), 600);
                             }
+                            else
+                            {
+                                client.sendWin();
+                                Console.WriteLine("you win");
+                            }
                         }
                         else
                         {
                             maze.update(gameTime);
+                            client.sendpostion(maze.player.position.X, maze.player.position.Y);
                         }
                     }
 
@@ -150,7 +156,7 @@ namespace MazeGame
 
                 case 'H':
 
-                    if (!host.waiting)
+                    if (!host.waiting&&host.game)
                     {
                         if (maze == null)
                         {
@@ -165,10 +171,16 @@ namespace MazeGame
                             {
                                 maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(hostMazes[counter]), 600);
                             }
+                            else
+                            {
+                                host.sendWin();
+                                Console.WriteLine("you win");
+                            }
                         }
                         else
                         {
                             maze.update(gameTime);
+                            host.sendpostion(maze.player.position.X, maze.player.position.Y);
                         }
                     }
 

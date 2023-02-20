@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Lidgren.Network;
 using Packets;
+using Microsoft.Xna.Framework;
 
 namespace MazeGame
 {
@@ -23,6 +24,9 @@ namespace MazeGame
         public bool waiting=true;
         public string clientName;
         public string clientColor;
+        public bool game=true;
+        public Vector2 clientPos;
+        public int clientMazeIndex;
         
 		public Host(string inputName, string inputColor,int[][,] inpHostMazes,int[][,]inpClientMazes)
         {
@@ -50,35 +54,32 @@ namespace MazeGame
             while (waiting)
             {
                 if((message = server.ReadMessage()) != null)
-                { 
-                    
+                {
+
                     //cannot tell between packet types?
-                    if (message.MessageType == NetIncomingMessageType.Data&& message.ReadByte()==(byte)PacketTypes.NewPlayer)
+                    if (message.MessageType == NetIncomingMessageType.Data && message.ReadByte() == (byte)PacketTypes.NewPlayer)
                     {
-                        
+
                         clientConnnection = message.SenderConnection;
-                        NewPlayer packet=new NewPlayer(); 
+                        NewPlayer packet = new NewPlayer();
                         //i think error is here
                         packet.NetIncomingMessageToPacket(message);
-                        Console.WriteLine(packet.name+" "+packet.colour);
+                        Console.WriteLine(packet.name + " " + packet.colour);
                         clientName = packet.name;
                         clientColor = packet.colour;
 
                         //reponds with same packet
                         outMessage = server.CreateMessage();
                         new NewPlayer() { name = name, colour = color }.PacketToNetOutGoingMessage(outMessage);
-                        server.SendMessage(outMessage,clientConnnection, NetDeliveryMethod.ReliableOrdered);
+                        server.SendMessage(outMessage, clientConnnection, NetDeliveryMethod.ReliableOrdered);
                         server.FlushSendQueue();
 
                         waiting = false;
-                        
-                    }
-                    else
-                    {
-                       // Console.WriteLine(message.ReadString());
+
                     }
                 }
             }
+
 
             //reponds with mazes
             
@@ -102,6 +103,33 @@ namespace MazeGame
             }
             waiting = false;
             Console.WriteLine("connected");
+
+
+
+            game = true;
+            while (game)
+            {
+                if ((message = server.ReadMessage()) != null)
+                {
+                    var type = (int)message.ReadByte();
+
+                    switch (type)
+                    {
+                        case (int)PacketTypes.PositionPacket:
+
+                            PositionPacket packet = new PositionPacket();
+                            packet.NetIncomingMessageToPacket(message);
+
+                            clientPos = new Vector2(packet.X, packet.Y);
+
+                            break;
+                        case (int)PacketTypes.WinTime:
+                            game = false;
+                            Console.WriteLine("you lose");
+                            break;
+                    }
+                }
+            }
         }
 
         public void sendpostion(float x, float y)
