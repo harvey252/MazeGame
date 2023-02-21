@@ -11,19 +11,19 @@ namespace MazeGame
         public char state;
         
         //settings
-        private static string type;
-        private static int size;
-        private static bool deafault;
+        private string type;
+        private int size;
+        private bool deafault;
 
 
         //single couters
-        private static double timeRemaining;
-        private static double timeElapased;
-        private static int singleMazeCount;
+        private double timeRemaining;
+        private double timeElapased;
+        private int singleMazeCount;
 
         //single game items
-        public static Maze singlePlayermaze;
-        private static TextDisplay timeCounter = new TextDisplay(new Vector2(0, 0), Color.White, .8f);
+        public Maze singlePlayermaze;
+        private TextDisplay timeCounter = new TextDisplay(new Vector2(0, 0), Color.White, .8f);
         public SingleGame()
         {
             state = 'M';
