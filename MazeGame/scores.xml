@@ -1,23 +1,28 @@
 <?xml version="1.0"?>
 <ArrayOfScore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Score>
-    <name>dominic</name>
+    <name>mark</name>
     <mazes>12</mazes>
     <time>155.00031000001172</time>
   </Score>
   <Score>
-    <name>harvey</name>
+    <name>john</name>
     <mazes>10</mazes>
     <time>139.00027800000998</time>
   </Score>
   <Score>
-    <name>harvey 3</name>
+    <name>william</name>
     <mazes>9</mazes>
     <time>126.00025200000857</time>
   </Score>
   <Score>
-    <name>harvey</name>
+    <name>fredrick</name>
     <mazes>7</mazes>
     <time>113.00022600000716</time>
+  </Score>
+  <Score>
+    <name>dominic</name>
+    <mazes>5</mazes>
+    <time>89.00017800000455</time>
   </Score>
 </ArrayOfScore>

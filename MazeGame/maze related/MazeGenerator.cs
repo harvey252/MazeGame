@@ -201,7 +201,7 @@ namespace MazeGame
                 }
             }
 
-            return grid;
+            return removeSymbol(grid);
         }
         public static int[,] generateSideWidener(int length)
         {
@@ -238,7 +238,7 @@ namespace MazeGame
             }
 
             
-            return grid;
+            return removeSymbol(grid);
         }
 
         public static int[,] generateWilsons(int length)
@@ -357,8 +357,8 @@ namespace MazeGame
                 //resetting path for next itteration
                 path.Clear();
             }
-
-            return grid;
+            
+            return removeSymbol(grid);
         }
 
 
@@ -452,6 +452,29 @@ namespace MazeGame
 
             return distance[new Vector2(grid.GetLength(0)-2,grid.GetLength(1)-2 )];
         }
+
+        private static int[,] removeSymbol(int[,] grid)
+        {
+            for (int x = 3; x <= grid.GetLength(0) - 3; x += 2)
+            {
+                for (int y = 3; y <= grid.GetLength(1) - 3; y += 2)
+                {
+                    //checks all connections open
+                    if(grid[x-1,y]==0 && grid[x,y-1]==0 &&grid[y,x+1]==0 &&grid[x,y+1]==0)
+                    {
+                        if((grid[x+1,y+2]==0&&grid[x+2,y-1]==0&&grid[x-1,y-2]==0&&grid[x-2,y+1]==0)|| //case 1
+                            (grid[x - 1, y + 2] == 0 && grid[x + 2, y + 1] == 0 && grid[x + 1, y - 2] == 0 && grid[x - 2, y - 1]==0)) //case 2
+                        {
+                            //removing nessary walls
+                            grid[x + 1, y + 1] = 0; grid[x - 1, y + 1] = 0; grid[x + 1,y - 1]=0; grid[x - 1, y - 1]=0;
+                        }
+                    }
+                }
+            }
+
+            return grid;
+        }
+
         
     }
 
