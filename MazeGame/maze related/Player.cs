@@ -15,15 +15,22 @@ namespace MazeGame
         public float speed = 4f;
 
         private Color color = Color.Blue;
-        private Texture2D texture = Game1.blockTexture;
+        private Texture2D texture = Game1.idle[0];
         private Vector2 endPos;
         private Vector2 target;
        
         public bool error = false;
         public bool win = false;
 
+
+        //animation values
+        private double animationCount;
+        private int animationIndex;
+        private Texture2D[] currentAnimation=Game1.idle;
+        public SpriteEffects spriteEffects = SpriteEffects.None;
+
         //reference to maze
-        
+
 
 
         private List<Vector2> trail = new List<Vector2>();
@@ -75,22 +82,30 @@ namespace MazeGame
                 if (kstate.IsKeyDown(Keys.W)|| kstate.IsKeyDown(Keys.Up))
                 {
                     target.Y += -1;
-
+                    spriteEffects = SpriteEffects.None;
+                    currentAnimation = Game1.down;
                 }
                 else if (kstate.IsKeyDown(Keys.S) || kstate.IsKeyDown(Keys.Down))
                 {
                     target.Y += 1;
-
+                    spriteEffects = SpriteEffects.None;
+                    currentAnimation = Game1.down;
                 }
                 else if (kstate.IsKeyDown(Keys.A) || kstate.IsKeyDown(Keys.Left))
                 {
                     target.X += -1;
-
+                    spriteEffects = SpriteEffects.FlipHorizontally;
+                    currentAnimation = Game1.walk;
                 }
                 else if (kstate.IsKeyDown(Keys.D) || kstate.IsKeyDown(Keys.Right))
                 {
                     target.X += 1;
-
+                    spriteEffects = SpriteEffects.None;
+                    currentAnimation = Game1.walk;
+                }
+                else
+                {
+                    currentAnimation = Game1.idle;
                 }
 
 
@@ -142,6 +157,20 @@ namespace MazeGame
                 //not used yet
             }
 
+
+            //animation
+            animationCount += gameTime.ElapsedGameTime.TotalSeconds;
+            if(animationCount>.2)
+            {
+                animationCount = 0;
+                animationIndex += 1;
+                if(animationIndex>=currentAnimation.Length)
+                {
+                    animationIndex = 0;
+                }
+                texture = currentAnimation[animationIndex];
+            }
+
         }
         //check to see if at target
         public bool atTarget()
@@ -178,6 +207,7 @@ namespace MazeGame
 
         public void draw(SpriteBatch _spriteBatch, ref Maze maze)
         {
+            
             //draw trail
             foreach(Vector2 point in trail)
                 maze.drawPoint(_spriteBatch, point, Game1.blockTexture, Color.Orange);
@@ -185,7 +215,7 @@ namespace MazeGame
             //draw end point
             maze.drawPoint(_spriteBatch, end, Game1.blockTexture, Color.Yellow);
             //draw player
-            maze.drawPoint(_spriteBatch, position, Game1.blockTexture, Color.Red);
+            maze.drawPoint(_spriteBatch, position, texture, Color.White,spriteEffects);
             
 
         }

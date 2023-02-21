@@ -36,5 +36,18 @@ namespace MazeGame
 
         }
 
+        public void drawPoint(SpriteBatch _spriteBatch, Vector2 pos, Texture2D texture, Color color, SpriteEffects spriteEffects)
+        {
+            _spriteBatch.Draw(
+                 texture,
+                 new Vector2(pos.X * scale + position.X, pos.Y * scale + position.Y),
+                 null, color, 0f,
+                 new Vector2(0, 0),
+                 scale / 32,
+                 spriteEffects,
+                 0f);
+
+        }
+
     }
 }

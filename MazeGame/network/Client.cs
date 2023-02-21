@@ -47,7 +47,7 @@ namespace MazeGame
             var config = new NetPeerConfiguration("application name");
             client = new NetClient(config);
             client.Start();
-            client.Connect(host: "10.210.198.91", port: 433);
+            client.Connect(host: "192.168.1.252", port: 433);
             client.FlushSendQueue();
 
             //sending start packet
