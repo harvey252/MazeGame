@@ -193,14 +193,13 @@ namespace Packets
 
         public override void PacketToNetOutGoingMessage(NetOutgoingMessage message)
         {
-            message.Write((byte)PacketTypes.NewPlayer);
+            message.Write((byte)PacketTypes.NextMaze);
             message.Write(index);
         }
 
         public override void NetIncomingMessageToPacket(NetIncomingMessage message)
         {
             index = message.ReadInt32();
-
         }
     }
 

@@ -155,8 +155,13 @@ namespace MazeGame
                         {
                             maze.update(gameTime);
                             client.sendpostion(maze.player.position.X, maze.player.position.Y);
+                            
+                            if(displayMaze.blocks != MazeGenerator.toVector(hostMazes[client.hostMazeIndex]))
+                            {
+                                displayMaze = new displayMaze(new Vector2(600, 0), MazeGenerator.toVector(hostMazes[client.hostMazeIndex]), 200, Color.Red);
+                            }
+
                             displayMaze.playerPos = client.hostPos;
-                            displayMaze.blocks = MazeGenerator.toVector(hostMazes[client.hostMazeIndex]);
                         }
                     }
 
@@ -192,8 +197,13 @@ namespace MazeGame
                         {
                             maze.update(gameTime);
                             host.sendpostion(maze.player.position.X, maze.player.position.Y);
+                            
+                            if (displayMaze.blocks != MazeGenerator.toVector(clientMazes[host.clientIndex]))
+                            {
+                                displayMaze = new displayMaze(new Vector2(600, 0), MazeGenerator.toVector(clientMazes[host.clientIndex]), 200, Color.Red);
+                            }
+
                             displayMaze.playerPos = host.clientPos;
-                            displayMaze.blocks = MazeGenerator.toVector(clientMazes[host.clientMazeIndex]);
                         }
                     }
 

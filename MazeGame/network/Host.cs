@@ -134,6 +134,7 @@ namespace MazeGame
                             packetNext.NetIncomingMessageToPacket(message);
 
                             clientIndex = packetNext.index;
+                      
 
                             break;
                     }
