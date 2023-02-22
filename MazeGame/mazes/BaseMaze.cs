@@ -13,13 +13,15 @@ namespace MazeGame
         public float scale;
         public Vector2 position;
 
+        public Texture2D walltexture = Game1.blockTexture;
+
         public int greatest;
 
         public virtual void draw(SpriteBatch _spriteBatch)
         {
             foreach (Vector2 block in blocks)
             {
-                drawPoint(_spriteBatch, block, Game1.blockTexture, Color.DarkBlue);
+                drawPoint(_spriteBatch, block, walltexture, Color.White);
             }
         }
 

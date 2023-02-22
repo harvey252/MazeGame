@@ -12,12 +12,24 @@ namespace MazeGame
     {
 
         public Player player;
-
+        private Random random;
 
 
         
         public Maze(Vector2 inputPos, Vector2[] inputBlocks, float length)
         {
+            random = new Random();
+            walltexture = Game1.wallTexures[random.Next(0,Game1.wallTexures.Length)];
+
+            if(walltexture == Game1.wallTexures[0])
+            {
+                //Program.chargeBGcolor(Color.LightGreen);
+            }
+            else
+            {
+                //Game1.chargeBGcolor(Color.LightGray);
+            }
+
             position = inputPos;
             blocks = inputBlocks;
             greatest = 0;

@@ -11,15 +11,23 @@ namespace MazeGame
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        public static Texture2D blockTexture;
+        
         public static SpriteFont font;
         public static Maze testMaze=null;
 
+        
+        public static Color bgColor;
 
         //animations
         public static Texture2D[] walk;
         public static Texture2D[] idle;
         public static Texture2D[] down;
+
+        //other textures
+        public static Texture2D blockTexture;
+        public static Texture2D path;
+        public static Texture2D[] wallTexures;
+
 
 
 
@@ -38,8 +46,12 @@ namespace MazeGame
 
 
             // TODO: Add your initialization logic here
+            
+            //load fonts and sprites
             blockTexture = Content.Load<Texture2D>("block");
             font = Content.Load<SpriteFont>("Score");
+            path = Content.Load<Texture2D>("path");
+            wallTexures = new Texture2D[2] { Content.Load<Texture2D>("stone"), Content.Load<Texture2D>("wood1") };
 
             //load animations
 
@@ -50,12 +62,17 @@ namespace MazeGame
 
             down = new Texture2D[3] { Content.Load<Texture2D>("player-down-1"), Content.Load<Texture2D>("player-down-2"), Content.Load<Texture2D>("player-down-3")};
 
+
+
             base.Initialize();
 
             _graphics.PreferredBackBufferWidth = 800;
             _graphics.PreferredBackBufferHeight = 600;
             _graphics.ApplyChanges();
 
+  
+
+                
 
         }
 
@@ -72,6 +89,10 @@ namespace MazeGame
                 Exit();
 
 
+
+
+          
+
             // TODO: Add your update logic here
 
             GameManager.Update(gameTime);
@@ -85,11 +106,13 @@ namespace MazeGame
 
             // TODO: Add your drawing code here
             //_spriteBatch
-            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
             base.Draw(gameTime);
             GameManager.Draw(_spriteBatch);
             _spriteBatch.End();
         }
+
+        
     }
 }

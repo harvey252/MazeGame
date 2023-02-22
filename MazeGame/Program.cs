@@ -6,7 +6,7 @@ namespace MazeGame
 {
     public static class Program
     {
-        [STAThread]
+        [STAThread];
         static void Main()
         {
 

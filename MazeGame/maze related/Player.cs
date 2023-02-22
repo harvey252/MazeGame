@@ -105,7 +105,13 @@ namespace MazeGame
                 }
                 else
                 {
-                    currentAnimation = Game1.idle;
+                    //idle
+                    if(currentAnimation==Game1.walk)
+                        currentAnimation = Game1.idle;
+                    else
+                    {//i want it to say still in climb animation
+                        animationCount = 0;
+                    }
                 }
 
 
@@ -210,7 +216,7 @@ namespace MazeGame
             
             //draw trail
             foreach(Vector2 point in trail)
-                maze.drawPoint(_spriteBatch, point, Game1.blockTexture, Color.Orange);
+                maze.drawPoint(_spriteBatch, point, Game1.path, Color.Orange);
 
             //draw end point
             maze.drawPoint(_spriteBatch, end, Game1.blockTexture, Color.Yellow);
