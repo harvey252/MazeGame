@@ -23,7 +23,7 @@ namespace MazeGame
 
         //single game items
         public Maze singlePlayermaze;
-        private TextDisplay timeCounter = new TextDisplay(new Vector2(0, 0), Color.White, .8f);
+        private TextDisplay timeCounter = new TextDisplay(new Vector2(600,0), Color.DarkBlue, 1);
         public SingleGame()
         {
             state = 'M';
@@ -140,7 +140,7 @@ namespace MazeGame
                             grid = MazeGenerator.generateWilsons(size);
 
                         //creating speed
-                        singlePlayermaze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(grid), 600);
+                        singlePlayermaze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(grid), 600,Color.Orange);
                         //adding new time
                         timeRemaining += MazeGenerator.getDijkstraTime(grid) / singlePlayermaze.player.speed;
                     }
@@ -204,7 +204,7 @@ namespace MazeGame
                     if (singlePlayermaze != null)
                         singlePlayermaze.draw(_spriteBatch);
 
-                    timeCounter.Draw(_spriteBatch, Math.Round(timeRemaining).ToString());
+                    timeCounter.Draw(_spriteBatch, ("Time:\n"+Math.Round(timeRemaining).ToString()+"\nMazes:\n"+ singleMazeCount));
 
                     break;
 

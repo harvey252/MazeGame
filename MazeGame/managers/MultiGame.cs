@@ -12,8 +12,8 @@ namespace MazeGame
         //settings
         public int[][,] hostMazes;
         public int[][,] clientMazes;
-        public string playerColor;
-        public string oppoentColor;
+        public string playerColorString;
+
         public string playername;
         public string oppoentName;
 
@@ -27,6 +27,8 @@ namespace MazeGame
         //game varables 
         private Maze maze;
         private int counter=0;
+        public Color opponentColor;
+        public Color playerColor;
 
         public MultiGame()
         {
@@ -56,13 +58,13 @@ namespace MazeGame
                     }
 
                     if (tempState == "R")
-                        playerColor = "Red";
+                        playerColorString = "Red";
                     else if (tempState == "Y")
-                        playerColor = "Yellow";
+                        playerColorString = "Yellow";
                     else if (tempState == "B")
-                        playerColor = "Blue";
+                        playerColorString = "Blue";
                     else
-                        playerColor = "Green";
+                        playerColorString = "Green";
 
                     Console.WriteLine("name? ");
                     playername = Console.ReadLine();
@@ -104,7 +106,7 @@ namespace MazeGame
                             clientMazes = getMazes();
                         }
 
-                        host = new Host(playername,playerColor, hostMazes, clientMazes);
+                        host = new Host(playername, playerColorString, hostMazes, clientMazes);
                         state = 'H';
 
                     }
@@ -112,7 +114,7 @@ namespace MazeGame
                     {
                         Console.WriteLine("when ready enter host IP");
                         tempState = (string)Console.ReadLine();
-                        client = new Client(tempState,playername,playerColor);
+                        client = new Client(tempState,playername, playerColorString);
                         state = 'C';
                     }
 
@@ -125,15 +127,19 @@ namespace MazeGame
                 case 'C':
                     if(!client.waiting&&client.game)
                     {
+                        //game start
                         if(maze == null)
                         {
+                            playerColor = stringToColor(playerColorString);
+                            opponentColor = stringToColor(client.hostColor);
+
                             clientMazes = client.clientMazes;
                             hostMazes = client.hostMazes;
 
                             //empty for some reason?
-                            maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(client.clientMazes[0]), 600);
+                            maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(client.clientMazes[0]), 600, playerColor);
 
-                            displayMaze = new displayMaze(new Vector2(600, 0), MazeGenerator.toVector(hostMazes[0]), 200,Color.Red);
+                            displayMaze = new displayMaze(new Vector2(600, 0), MazeGenerator.toVector(hostMazes[0]), 200, opponentColor);
 
                         }
                         else if(maze.player.win)
@@ -141,7 +147,7 @@ namespace MazeGame
                             counter += 1;
                             if (counter < clientMazes.Length)
                             {
-                                maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(client.clientMazes[counter]), 600);
+                                maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(client.clientMazes[counter]), 600, playerColor);
                                 client.nextMaze(counter);
                             }
                             else
@@ -158,7 +164,7 @@ namespace MazeGame
                             
                             if(displayMaze.blocks != MazeGenerator.toVector(hostMazes[client.hostMazeIndex]))
                             {
-                                displayMaze = new displayMaze(new Vector2(600, 0), MazeGenerator.toVector(hostMazes[client.hostMazeIndex]), 200, Color.Red);
+                                displayMaze = new displayMaze(new Vector2(600, 0), MazeGenerator.toVector(hostMazes[client.hostMazeIndex]), 200, opponentColor);
                             }
 
                             displayMaze.playerPos = client.hostPos;
@@ -168,14 +174,17 @@ namespace MazeGame
                     break;
 
                 case 'H':
-                    
+               
                     if (!host.waiting&&host.game)
                     {
+                        //game start
                         if (maze == null)
                         {
- 
-                            maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(hostMazes[counter]), 600);
-                            displayMaze = new displayMaze(new Vector2(600, 0), MazeGenerator.toVector(clientMazes[0]), 200, Color.Red); ;
+                            playerColor = stringToColor(playerColorString);
+                            opponentColor = stringToColor(host.clientColor);
+
+                            maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(hostMazes[counter]), 600, playerColor);
+                            displayMaze = new displayMaze(new Vector2(600, 0), MazeGenerator.toVector(clientMazes[0]), 200, opponentColor);
 
                         }
                         else if (maze.player.win)
@@ -183,7 +192,7 @@ namespace MazeGame
                             counter += 1;
                             if (counter < hostMazes.Length)
                             {
-                                maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(hostMazes[counter]), 600);
+                                maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(hostMazes[counter]), 600,playerColor);
                                 host.nextMaze(counter);
                             }
                             else
@@ -200,7 +209,7 @@ namespace MazeGame
                             
                             if (displayMaze.blocks != MazeGenerator.toVector(clientMazes[host.clientIndex]))
                             {
-                                displayMaze = new displayMaze(new Vector2(600, 0), MazeGenerator.toVector(clientMazes[host.clientIndex]), 200, Color.Red);
+                                displayMaze = new displayMaze(new Vector2(600, 0), MazeGenerator.toVector(clientMazes[host.clientIndex]), 200, opponentColor);
                             }
 
                             displayMaze.playerPos = host.clientPos;
@@ -229,6 +238,31 @@ namespace MazeGame
                     if (displayMaze != null)
                         displayMaze.draw(_spriteBatch);
                     break;
+            }
+        }
+
+        private Color stringToColor(string color)
+        {
+            if(color == "BLue" )
+            {
+                return Color.Blue;
+            }
+            else if(color == "Yellow")
+            {
+                return Color.Yellow;
+            }
+            else if(color == "Red")
+            {
+                return Color.Red;
+            }
+            else if(color == "Green")
+            {
+                return Color.LightGreen;
+            }
+            else
+            {
+                //if error has occured
+                return Color.White;
             }
         }
 

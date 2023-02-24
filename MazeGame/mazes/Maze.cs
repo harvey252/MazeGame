@@ -13,21 +13,26 @@ namespace MazeGame
 
         public Player player;
         private Random random;
+       
 
 
         
-        public Maze(Vector2 inputPos, Vector2[] inputBlocks, float length)
+        public Maze(Vector2 inputPos, Vector2[] inputBlocks, float inplength,Color trailColor)
         {
+
+            length = inplength;
+            //picking wall texture
             random = new Random();
             walltexture = Game1.wallTexures[random.Next(0,Game1.wallTexures.Length)];
 
+            //chaning background color
             if(walltexture == Game1.wallTexures[0])
             {
-                //Program.chargeBGcolor(Color.LightGreen);
+                BGcolor = Color.LightGray;
             }
             else
             {
-                //Game1.chargeBGcolor(Color.LightGray);
+                BGcolor = Color.DarkGreen;
             }
 
             position = inputPos;
@@ -39,8 +44,8 @@ namespace MazeGame
                 else if (block.Y > greatest) greatest = Convert.ToInt32(block.Y);
             }
 
-            scale = System.Math.Abs( length) /(greatest+1);
-            player = new Player(new Vector2(1, 1), new Vector2(greatest - 1, greatest - 1));
+            scale = System.Math.Abs(inplength) /(greatest+1);
+            player = new Player(new Vector2(1, 1), new Vector2(greatest - 1, greatest - 1),trailColor);
         }
 
         public override void draw(SpriteBatch _spriteBatch)

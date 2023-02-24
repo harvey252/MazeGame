@@ -15,10 +15,28 @@ namespace MazeGame
 
         public Texture2D walltexture = Game1.blockTexture;
 
+        public Color BGcolor;
+
         public int greatest;
+        public float length;
 
         public virtual void draw(SpriteBatch _spriteBatch)
         {
+            //drawing back ground
+            if(BGcolor!=null)
+            {
+                _spriteBatch.Draw(
+                 Game1.blockTexture,
+                 position,
+                 null, BGcolor, 0f,
+                 new Vector2(0, 0),
+                 length/32,
+                 SpriteEffects.None,
+                 0f);
+            }
+
+
+            //drawing all tiles
             foreach (Vector2 block in blocks)
             {
                 drawPoint(_spriteBatch, block, walltexture, Color.White);

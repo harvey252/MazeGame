@@ -102,8 +102,10 @@ namespace MazeGame
 
         protected override void Draw(GameTime gameTime)
         {
+            
             GraphicsDevice.Clear(Color.LightBlue);
-
+            
+            GraphicsDevice.SetRenderTarget(null);
             // TODO: Add your drawing code here
             //_spriteBatch
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);

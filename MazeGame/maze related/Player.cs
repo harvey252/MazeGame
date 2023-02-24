@@ -14,7 +14,7 @@ namespace MazeGame
         public Vector2 position;
         public float speed = 4f;
 
-        private Color color = Color.Blue;
+        private Color trailColor = Color.Orange;
         private Texture2D texture = Game1.idle[0];
         private Vector2 endPos;
         private Vector2 target;
@@ -35,13 +35,15 @@ namespace MazeGame
 
         private List<Vector2> trail = new List<Vector2>();
 
-        public Player(Vector2 startPos, Vector2 finishPos)
+        public Player(Vector2 startPos, Vector2 finishPos, Color inpTrailColor)
         {
             position = startPos;
             target = position;
             start = position;
 
             end = finishPos;
+            if (inpTrailColor != null)
+                trailColor = inpTrailColor;
 
         }
 
@@ -105,12 +107,13 @@ namespace MazeGame
                 }
                 else
                 {
-                    //idle
-                    if(currentAnimation==Game1.walk)
-                        currentAnimation = Game1.idle;
-                    else
+                    if (currentAnimation == Game1.down)
                     {//i want it to say still in climb animation
                         animationCount = 0;
+                    }
+                    else
+                    {
+                        currentAnimation = Game1.idle;
                     }
                 }
 
@@ -155,13 +158,16 @@ namespace MazeGame
             else if (!pointValid(target,ref maze))
             {
                 target = position;
+                //idle
+                if (currentAnimation == Game1.walk)
+                    currentAnimation = Game1.idle;
+                else if (currentAnimation == Game1.down)
+                {//i want it to say still in climb animation
+                    animationCount = 0;
+                }
             }
 
-            //check if at end of level
-            if (position == endPos)
-            {
-                //not used yet
-            }
+      
 
 
             //animation
@@ -216,7 +222,7 @@ namespace MazeGame
             
             //draw trail
             foreach(Vector2 point in trail)
-                maze.drawPoint(_spriteBatch, point, Game1.path, Color.Orange);
+                maze.drawPoint(_spriteBatch, point, Game1.path, trailColor);
 
             //draw end point
             maze.drawPoint(_spriteBatch, end, Game1.blockTexture, Color.Yellow);

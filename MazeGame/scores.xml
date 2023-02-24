@@ -1,9 +1,19 @@
 <?xml version="1.0"?>
 <ArrayOfScore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Score>
+    <name>harvey</name>
+    <mazes>15</mazes>
+    <time>186.50037300001514</time>
+  </Score>
+  <Score>
     <name>mark</name>
     <mazes>12</mazes>
     <time>155.00031000001172</time>
+  </Score>
+  <Score>
+    <name>harvey 3</name>
+    <mazes>10</mazes>
+    <time>148.00029600001096</time>
   </Score>
   <Score>
     <name>john</name>
