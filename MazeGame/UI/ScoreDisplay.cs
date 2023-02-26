@@ -32,9 +32,10 @@ namespace MazeGame
             scale = length / inpTotal;
 
 
-            //creating rows asumes object is s sqair
+            //creating rows asumes the obejct is a squair
             rows = (int)Math.Ceiling(Math.Sqrt(total));
-            //finds numer of objects in a row
+            //finds number of objects in a row
+            //row count exits in case I ever whant to include different hieghts and widths for different screen sizes
             rowCount = rows;
             if (rows>1)
             {
