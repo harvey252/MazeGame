@@ -29,6 +29,9 @@ namespace MazeGame
         private int counter=0;
         public Color opponentColor;
         public Color playerColor;
+        private ScoreDisplay playerScore;
+        public ScoreDisplay oppenentScore;
+
 
         public MultiGame()
         {
@@ -132,11 +135,14 @@ namespace MazeGame
                         {
                             playerColor = stringToColor(playerColorString);
                             opponentColor = stringToColor(client.hostColor);
+                            
 
                             clientMazes = client.clientMazes;
                             hostMazes = client.hostMazes;
 
-                            //empty for some reason?
+                            playerScore = new ScoreDisplay(new Vector2(600, 200), playerColor, 200, clientMazes.Length);
+                            oppenentScore = new ScoreDisplay(new Vector2(600, 400), opponentColor,200, hostMazes.Length);
+
                             maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(client.clientMazes[0]), 600, playerColor);
 
                             displayMaze = new displayMaze(new Vector2(600, 0), MazeGenerator.toVector(hostMazes[0]), 200, opponentColor);
@@ -144,6 +150,7 @@ namespace MazeGame
                         }
                         else if(maze.player.win)
                         {
+                            playerScore.updateScore();
                             counter += 1;
                             if (counter < clientMazes.Length)
                             {
@@ -164,6 +171,7 @@ namespace MazeGame
                             
                             if(displayMaze.blocks != MazeGenerator.toVector(hostMazes[client.hostMazeIndex]))
                             {
+            
                                 displayMaze = new displayMaze(new Vector2(600, 0), MazeGenerator.toVector(hostMazes[client.hostMazeIndex]), 200, opponentColor);
                             }
 
@@ -182,6 +190,8 @@ namespace MazeGame
                         {
                             playerColor = stringToColor(playerColorString);
                             opponentColor = stringToColor(host.clientColor);
+                            playerScore = new ScoreDisplay(new Vector2(600, 200), playerColor, 200, hostMazes.Length);
+                            oppenentScore = new ScoreDisplay(new Vector2(600, 400), opponentColor, 200, clientMazes.Length);
 
                             maze = new Maze(new Vector2(0, 0), MazeGenerator.toVector(hostMazes[counter]), 600, playerColor);
                             displayMaze = new displayMaze(new Vector2(600, 0), MazeGenerator.toVector(clientMazes[0]), 200, opponentColor);
@@ -189,6 +199,7 @@ namespace MazeGame
                         }
                         else if (maze.player.win)
                         {
+                            playerScore.updateScore();
                             counter += 1;
                             if (counter < hostMazes.Length)
                             {
@@ -209,6 +220,7 @@ namespace MazeGame
                             
                             if (displayMaze.blocks != MazeGenerator.toVector(clientMazes[host.clientIndex]))
                             {
+                              
                                 displayMaze = new displayMaze(new Vector2(600, 0), MazeGenerator.toVector(clientMazes[host.clientIndex]), 200, opponentColor);
                             }
 
@@ -221,6 +233,7 @@ namespace MazeGame
 
 
         }
+        //drawing all objects
         public void Draw(SpriteBatch _spriteBatch)
         {
             switch (state)
@@ -231,19 +244,30 @@ namespace MazeGame
                     if (displayMaze != null)
                         displayMaze.draw(_spriteBatch);
 
+                    if (playerScore != null)
+                        playerScore.draw(_spriteBatch);
+                    if (oppenentScore != null)
+                        oppenentScore.draw(_spriteBatch);
+
                     break;
                 case 'H':
                     if (maze != null)
                         maze.draw(_spriteBatch);
                     if (displayMaze != null)
                         displayMaze.draw(_spriteBatch);
+
+                    if (playerScore != null)
+                        playerScore.draw(_spriteBatch);
+                    if (oppenentScore != null)
+                        oppenentScore.draw(_spriteBatch);
+
                     break;
             }
         }
 
         private Color stringToColor(string color)
         {
-            if(color == "BLue" )
+            if(color == "Blue")
             {
                 return Color.Blue;
             }

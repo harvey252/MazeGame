@@ -155,6 +155,7 @@ namespace MazeGame
                             packetNext.NetIncomingMessageToPacket(message);
 
                             hostMazeIndex = packetNext.index;
+                            GameManager.multiGame.oppenentScore.updateScore();
                             break;
 
                     }

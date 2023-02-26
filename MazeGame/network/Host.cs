@@ -134,8 +134,8 @@ namespace MazeGame
                             packetNext.NetIncomingMessageToPacket(message);
 
                             clientIndex = packetNext.index;
-                      
 
+                            GameManager.multiGame.oppenentScore.updateScore();
                             break;
                     }
                 }

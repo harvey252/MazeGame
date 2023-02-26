@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace MazeGame.UI
+namespace MazeGame
 {
     public class ScoreDisplay
     {
@@ -16,8 +16,11 @@ namespace MazeGame.UI
         int total;
         int current;
 
+        int rows;
+        int rowCount;
+
         Texture2D completeTexture = Game1.idle[0];
-        Texture2D inpCompleteTexture = Game1.blockTexture;
+        Texture2D inpCompleteTexture = Game1.path;
 
         public ScoreDisplay(Vector2 inpPostion, Color inpColor, float inpLength, int inpTotal)
         {
@@ -27,6 +30,17 @@ namespace MazeGame.UI
             length = inpLength;
             total = inpTotal;
             scale = length / inpTotal;
+
+
+            //creating rows asumes object is s sqair
+            rows = (int)Math.Ceiling(Math.Sqrt(total));
+            //finds numer of objects in a row
+            rowCount = rows;
+            if (rows>1)
+            {
+                scale = length / rows;
+            }
+
         }
 
         public void updateScore()
@@ -36,11 +50,16 @@ namespace MazeGame.UI
 
         public void draw(SpriteBatch _spriteBatch)
         {
-            for (int x = 1; x > total; x ++)
+            int y = 0;
+            for (int n = 0; n < total; n ++)
             {
+
+                //checking for incrementing next row
+                if (n - y * rowCount == rowCount)
+                    y++;
                 Texture2D texture;
                 //draw completed
-                if (x <= current) 
+                if (n < current) 
                 {
                     texture = completeTexture;
                 }
@@ -50,14 +69,18 @@ namespace MazeGame.UI
                     texture = inpCompleteTexture;
                 }
 
+
+                //postion is adjusted for y
                 _spriteBatch.Draw(
                  texture,
-                 postion,
+                 new Vector2(postion.X + (n-y*rowCount)*scale,postion.Y+y*length/rows),
                  null, color, 0f,
                  new Vector2(0, 0),
                  scale / 32,
                  SpriteEffects.None,
                  0f);
+                
+                
             }
         }
 

@@ -1,6 +1,21 @@
 <?xml version="1.0"?>
 <ArrayOfScore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Score>
+    <name>barn</name>
+    <mazes>19</mazes>
+    <time>238.00047600002074</time>
+  </Score>
+  <Score>
+    <name>barnabus</name>
+    <mazes>15</mazes>
+    <time>206.00041200001726</time>
+  </Score>
+  <Score>
+    <name>willian</name>
+    <mazes>15</mazes>
+    <time>191.5003830000157</time>
+  </Score>
+  <Score>
     <name>harvey</name>
     <mazes>15</mazes>
     <time>186.50037300001514</time>
@@ -16,6 +31,16 @@
     <time>148.00029600001096</time>
   </Score>
   <Score>
+    <name>isqaa</name>
+    <mazes>10</mazes>
+    <time>143.00028600001042</time>
+  </Score>
+  <Score>
+    <name>ruben</name>
+    <mazes>11</mazes>
+    <time>142.0002840000103</time>
+  </Score>
+  <Score>
     <name>john</name>
     <mazes>10</mazes>
     <time>139.00027800000998</time>
@@ -24,15 +49,5 @@
     <name>william</name>
     <mazes>9</mazes>
     <time>126.00025200000857</time>
-  </Score>
-  <Score>
-    <name>fredrick</name>
-    <mazes>7</mazes>
-    <time>113.00022600000716</time>
-  </Score>
-  <Score>
-    <name>dominic</name>
-    <mazes>5</mazes>
-    <time>89.00017800000455</time>
   </Score>
 </ArrayOfScore>
