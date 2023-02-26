@@ -69,8 +69,7 @@ namespace MazeGame
                     else
                         playerColorString = "Green";
 
-                    Console.WriteLine("name? ");
-                    playername = Console.ReadLine();
+                    playername = GameManager.getName();
 
                     Console.WriteLine("would you like to Host H or join J");
                     tempState = (string)Console.ReadLine();

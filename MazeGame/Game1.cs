@@ -26,6 +26,7 @@ namespace MazeGame
         //other textures
         public static Texture2D blockTexture;
         public static Texture2D path;
+        public static Texture2D endTexture;
         public static Texture2D[] wallTexures;
 
 
@@ -51,8 +52,9 @@ namespace MazeGame
             blockTexture = Content.Load<Texture2D>("block");
             font = Content.Load<SpriteFont>("Score");
             path = Content.Load<Texture2D>("path");
+            endTexture = Content.Load<Texture2D>("meat");
             wallTexures = new Texture2D[2] { Content.Load<Texture2D>("stone"), Content.Load<Texture2D>("wood1") };
-
+            
             //load animations
 
             walk = new Texture2D[6] { Content.Load<Texture2D>("player-run-1"), Content.Load<Texture2D>("player-run-2"), Content.Load<Texture2D>("player-run-3"), 

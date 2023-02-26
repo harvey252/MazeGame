@@ -42,8 +42,8 @@ namespace MazeGame
                         //placeholder default vlaues
 
                         type = "3";
-                        timeRemaining = 30;
-                        size = 10;
+                        timeRemaining = 50;
+                        size = 15;
                         deafault = true;
                         state = 'G';
                         break;
@@ -104,9 +104,15 @@ namespace MazeGame
                         {
                             timeRemaining = Convert.ToInt32(temp);
 
-                            if (timeRemaining <= 1)
+                            if (timeRemaining < 1)
                             {
                                 Console.WriteLine("too small");
+                                timeValid = false;
+                                temp = Console.ReadLine();
+                            }
+                            else if(timeRemaining>500)
+                            {
+                                Console.WriteLine("too large");
                                 timeValid = false;
                                 temp = Console.ReadLine();
                             }
@@ -178,9 +184,8 @@ namespace MazeGame
                         temp = (string)Console.ReadLine();
                         if (temp == "y")
                         {
-
-                            Console.WriteLine("what is your name");
-                            temp = Console.ReadLine();
+                            temp = GameManager.getName();
+                            
                             DataBaseManager.Add(temp, singleMazeCount, timeElapased);
 
                         }

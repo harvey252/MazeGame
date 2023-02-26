@@ -12,11 +12,10 @@ namespace MazeGame
         private Vector2 end;
 
         public Vector2 position;
-        public float speed = 4f;
+        public float speed = 6f;
 
         private Color trailColor = Color.Orange;
         private Texture2D texture = Game1.idle[0];
-        private Vector2 endPos;
         private Vector2 target;
        
         public bool error = false;
@@ -225,7 +224,7 @@ namespace MazeGame
                 maze.drawPoint(_spriteBatch, point, Game1.path, trailColor);
 
             //draw end point
-            maze.drawPoint(_spriteBatch, end, Game1.blockTexture, Color.Yellow);
+            maze.drawPoint(_spriteBatch, end, Game1.endTexture, Color.White);
             //draw player
             maze.drawPoint(_spriteBatch, position, texture, Color.White,spriteEffects);
             

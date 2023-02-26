@@ -96,6 +96,27 @@ namespace MazeGame
 
         }
 
+        public static string getName()
+        {
+            string name=null;
+            bool valid = false;
+            while(!valid)
+            {
+                Console.WriteLine("name? ");
+                name = Console.ReadLine();
+                if (name == null)
+                {
+                    Console.WriteLine("please enter a name");
+                }
+                else if(name.Length>10)
+                {
+                    Console.WriteLine("please enter a shorter name");
+                }
+            }
+
+            return name;
+        }
+
     }
     
 }
