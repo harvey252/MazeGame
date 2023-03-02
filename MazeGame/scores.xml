@@ -6,6 +6,11 @@
     <time>151.33363600001132</time>
   </Score>
   <Score>
+    <name>test 2</name>
+    <mazes>5</mazes>
+    <time>111.33355600000698</time>
+  </Score>
+  <Score>
     <name>test1</name>
     <mazes>4</mazes>
     <time>104.66687600000625</time>

@@ -353,13 +353,20 @@ namespace MazeGame
                         numberValid = false;
                         temp = Console.ReadLine();
                     }
+                    else if(numberMazes>50)
+                    {
+                        Console.WriteLine("too large");
+                        numberValid = false;
+                        temp = Console.ReadLine();
+
+                    }
                     else
                         numberValid = true;
                 }
                 catch (Exception)
                 {
                     numberValid = false;
-                    Console.WriteLine("enter valid size");
+                    Console.WriteLine("enter valid number");
                     temp = Console.ReadLine();
                 }
             }

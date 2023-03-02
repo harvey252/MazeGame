@@ -108,10 +108,12 @@ namespace MazeGame
                 {
                     Console.WriteLine("please enter a name");
                 }
-                else if(name.Length>10)
+                else if (name.Length > 10)
                 {
                     Console.WriteLine("please enter a shorter name");
                 }
+                else
+                    valid = true;
             }
 
             return name;
