@@ -42,8 +42,8 @@ namespace MazeGame
                         //placeholder default vlaues
 
                         type = "3";
-                        timeRemaining = 50;
-                        size = 15;
+                        timeRemaining = 30;
+                        size = 6;
                         deafault = true;
                         state = 'G';
                         break;
@@ -136,6 +136,9 @@ namespace MazeGame
                     //if new maze is required
                     if (singlePlayermaze == null || singlePlayermaze.player.win)
                     {
+                        if (deafault && size < 15)
+                            size++;
+
                         singleMazeCount += 1;
                         int[,] grid = new int[0, 0];
                         if (type == "1")
@@ -179,7 +182,7 @@ namespace MazeGame
                     if (deafault)
                     {
 
-                        Console.WriteLine("would you like to record you score");
+                        Console.WriteLine("would you like to record you score y/n");
 
                         temp = (string)Console.ReadLine();
                         if (temp == "y")
