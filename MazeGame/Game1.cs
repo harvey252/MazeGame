@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework.Audio;
 
 namespace MazeGame
 {
@@ -29,6 +30,9 @@ namespace MazeGame
         public static Texture2D endTexture;
         public static Texture2D[] wallTexures;
 
+        //music and sounds
+        private static SoundEffect music;
+        private SoundEffectInstance musicInstance;
 
 
 
@@ -38,7 +42,12 @@ namespace MazeGame
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            
+            music = Content.Load<SoundEffect>("Starting Out Waltz Vivace");
+            musicInstance = music.CreateInstance();
+            musicInstance.IsLooped = true;
+            musicInstance.Play();
+
+
         }
 
         protected override void Initialize()

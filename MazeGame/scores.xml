@@ -16,8 +16,18 @@
     <time>104.66687600000625</time>
   </Score>
   <Score>
+    <name>harvey</name>
+    <mazes>4</mazes>
+    <time>100.66686800000582</time>
+  </Score>
+  <Score>
     <name />
     <mazes>4</mazes>
     <time>100.00020000000575</time>
+  </Score>
+  <Score>
+    <name>Alexandria</name>
+    <mazes>3</mazes>
+    <time>92.00018400000488</time>
   </Score>
 </ArrayOfScore>

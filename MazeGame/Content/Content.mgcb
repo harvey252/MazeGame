@@ -212,6 +212,12 @@
 /processorParam:TextureFormat=Compressed
 /build:Score.spritefont
 
+#begin Starting Out Waltz Vivace.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Starting Out Waltz Vivace.wav
+
 #begin stone.png
 /importer:TextureImporter
 /processor:TextureProcessor

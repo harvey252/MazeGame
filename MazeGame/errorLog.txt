@@ -2,3 +2,5 @@
 Object reference not set to an instance of an object.
 ----------------------
 The content file was not found.
+----------------------
+Unable to cast object of type 'Microsoft.Xna.Framework.Media.Song' to type 'Microsoft.Xna.Framework.Audio.SoundEffect'.
