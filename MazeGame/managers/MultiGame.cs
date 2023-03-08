@@ -78,6 +78,7 @@ namespace MazeGame
                     playername = GameManager.getName();
 
                     Console.WriteLine("would you like to Host H or join J");
+                    Console.WriteLine("the host generates all the mazes and sends them to the other user,\n join will just connect to host");
                     tempState = (string)Console.ReadLine();
                     //to get valid type
                     while (tempState != "H" && tempState != "J")
@@ -120,13 +121,17 @@ namespace MazeGame
                     }
                     else
                     {
-                        Console.WriteLine("when ready enter host IP");
-                        tempState = (string)Console.ReadLine();
+                      
+                            Console.WriteLine("when ready enter host IP");
+                            Console.WriteLine("An IP address is a uniquie identifier, used for computers to comucate over a newtork,\n your host the other player can find this IP in thier settings ");
+                            tempState = (string)Console.ReadLine();
 
-                        while (tempState == null)
-                            tempState = Console.ReadLine();
-                        client = new Client(tempState,playername, playerColorString);
-                        state = 'C';
+
+                            client = new Client(tempState, playername, playerColorString);
+                            state = 'C';
+          
+                
+                        Console.WriteLine("waiting to connect");
                     }
 
 
@@ -249,7 +254,7 @@ namespace MazeGame
 
                 case 'O':
                     Console.WriteLine("press enter to continue");
-                    Console.WriteLine(winState);
+
                     Console.ReadLine();
                     state = 'E';
                     break;
