@@ -24,6 +24,7 @@ namespace MazeGame
         //single game items
         public Maze singlePlayermaze;
         private TextDisplay timeCounter = new TextDisplay(new Vector2(600,0), Color.DarkBlue, 1);
+        private TextDisplay gameOver = new TextDisplay(new Vector2(30, 50), Color.Red, 4);
         public SingleGame()
         {
             state = 'M';
@@ -215,7 +216,9 @@ namespace MazeGame
                     timeCounter.Draw(_spriteBatch, ("Time:\n"+Math.Round(timeRemaining).ToString()+"\nMazes:\n"+ singleMazeCount));
 
                     break;
-
+                case 'O':
+                    gameOver.Draw(_spriteBatch,"game over");
+                    break;
 
             }
         }

@@ -31,6 +31,12 @@ namespace MazeGame
         public Color playerColor;
         private ScoreDisplay playerScore;
         public ScoreDisplay oppenentScore;
+        public char winState='G';
+
+
+        //text displaces
+        private TextDisplay winDisplay = new TextDisplay(new Vector2(30, 50), Color.DarkBlue, 4);
+        private TextDisplay loseDisplay = new TextDisplay(new Vector2(30, 50), Color.Red, 4);
 
 
         public MultiGame()
@@ -116,6 +122,9 @@ namespace MazeGame
                     {
                         Console.WriteLine("when ready enter host IP");
                         tempState = (string)Console.ReadLine();
+
+                        while (tempState == null)
+                            tempState = Console.ReadLine();
                         client = new Client(tempState,playername, playerColorString);
                         state = 'C';
                     }
@@ -161,6 +170,7 @@ namespace MazeGame
                                 client.sendWin();
                                 client.game = false;
                                 Console.WriteLine("you win");
+                                winState = 'W';
                             }
                         }
                         else
@@ -177,6 +187,9 @@ namespace MazeGame
                             displayMaze.playerPos = client.hostPos;
                         }
                     }
+
+                    if (winState != 'G')
+                        state = 'O';
 
                     break;
 
@@ -210,6 +223,7 @@ namespace MazeGame
                                 host.sendWin();
                                 host.game = false;
                                 Console.WriteLine("you win");
+                                winState = 'W';
                             }
                         }
                         else
@@ -225,9 +239,22 @@ namespace MazeGame
 
                             displayMaze.playerPos = host.clientPos;
                         }
+                        
                     }
 
+                    if (winState != 'G')
+                        state = 'O';
+
                     break;
+
+                case 'O':
+                    Console.WriteLine("press enter to continue");
+                    Console.WriteLine(winState);
+                    Console.ReadLine();
+                    state = 'E';
+                    break;
+
+                    
             }
 
 
@@ -260,6 +287,17 @@ namespace MazeGame
                     if (oppenentScore != null)
                         oppenentScore.draw(_spriteBatch);
 
+                    break;
+
+                    //dosent even get ere
+                case 'O':
+                    if (winState=='W')
+                        winDisplay.Draw(_spriteBatch, "you win");
+                    else
+                    {
+                        Console.WriteLine("test");
+                        loseDisplay.Draw(_spriteBatch, "you lose");
+                    }
                     break;
             }
         }

@@ -145,9 +145,10 @@ namespace MazeGame
 
                             break;
                         case (int)PacketTypes.WinTime:
-                            game = false;
+                            
                             Console.WriteLine("you lose");
-
+                            GameManager.multiGame.winState = 'L';
+                            game = false;
                             break;
                         case (int)PacketTypes.NextMaze:
                             //this packet is not resiveing

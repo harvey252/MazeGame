@@ -127,6 +127,7 @@ namespace MazeGame
                         case (int)PacketTypes.WinTime:
                             game = false;
                             Console.WriteLine("you lose");
+                            GameManager.multiGame.winState = 'L';
                             break;
                         case (int)PacketTypes.NextMaze:
 
